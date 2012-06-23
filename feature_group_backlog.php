@@ -10,7 +10,7 @@
 	$stories = $G->getAllStories();
 ?>
 
-<h1>&laquo;<?=$G->getName()?>&raquo; Tag</h1>
+<h1>&laquo;<?php echo $G->getName()?>&raquo; Tag</h1>
 
 <table>
 <thead>

@@ -9,6 +9,7 @@ body {
 
 h1 { color: #333; font-size: 20px; font-weight: normal; margin: 0; margin-bottom: 10px; }
 h2 { color: #fff; font-size: 18px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; }
+h3 { color: #333; font-size: 16px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; }
 
 .lv_Title { color: #333; font-size: 16px; font-weight: normal !important; margin: 0; margin-bottom: 10px; margin-top:10px; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif;}
 
@@ -35,14 +36,17 @@ button {
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
 	text-decoration:none; cursor:pointer; border-top-color:#ccc;border-left-color:#ccc; font-size: 12px; margin-top: 5px; margin-bottom: 5px;	
 }
+button:hover { border:1px solid #333;}
 button.delete { 
 	background-color:#f00; background-image:none; color:#fff; font-weight:bold;
 	border:1px solid #900; border-top-color:#c00;border-left-color:#c00;
 }
+button.delete:hover { border:1px solid #900;}
 button.action {
 	background-color:#0c3; background-image:none; color:#fff; font-weight:bold;
 	border:1px solid #093; border-top-color:#3c3;border-left-color:#3c3;
 }
+button.action:hover { border:1px solid #093;}
 
 p { margin:0; margin-top:5px;}
 
@@ -62,13 +66,19 @@ form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; hei
 
 /* Helpers */
 .clear {clear:both;}
+.left { float:left;}
+.right { float:right;}
 .pointer { cursor:pointer;}
 .hidden { display:none}
 .red { color:#f00;}
 .inactive { color:#999;}
 
+a.url { text-decoration:underline;}
+
 /* AJAX saving message */
 .savingText { position:absolute; top:6px; right:10px; background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; display:none;}
+.waitingText { background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; }
+.errorText { background-color:#fee;color:#C00;}
 
 /* Warning message */
 .warningMsg { background-color:#fee;color:#C00; border:1px solid #C00; margin-bottom:15px; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;}
@@ -85,20 +95,21 @@ form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; hei
 /* ----------------------------------------------------------------------------------------------------*/
 
 #home { padding:0; background-color:#666; position:relative; height:192px; }
-#home #left { position:absolute;top:0;left:0; width:240px; height:192px; background: url('../images/scrum.jpg');}
-#home #left #license { visibility:hidden; position:absolute;width:240px; height:192px; color:#fff;}
-#home #left #license a { color:#fff;}
-#home #left #license div { position:absolute; right:4px; bottom:4px; font-size:10px;}
-#home #left:hover #license { visibility:visible;}
-#home #right { position:absolute;top:0; padding:10px; left: 245px; color:#ccc;}
-#home #right h3 { color:#fff; padding-left:10px;}
-#home #right ul { list-style: none; background-color:#666;padding-right:30px; padding-bottom:10px;}
-#home #right a { color:#ccc;}
-#home #right a.project { font-weight:bold;}
-#home #right a:hover { color:#fff;}
+#home #right { position:absolute;top:0;right:0; width:240px; height:192px; background: url('../images/scrum.jpg');}
+#home #right #license { visibility:hidden; position:absolute;width:240px; height:192px; color:#fff;}
+#home #right #license a { color:#fff;}
+#home #right #license div { position:absolute; right:4px; bottom:4px; font-size:10px;}
+#home #right:hover #license { visibility:visible;}
+#home #left { padding:5px; position:relative; float:left; }
+#home #middle { position:relative; float:left; color:#ccc; border-left:1px solid #999; margin-left:5px; margin-top:12px;}
+#home #middle h3 { color:#fff; padding-left:10px; margin:0;}
+#home #middle ul { list-style: none; padding-right:30px; padding-bottom:10px;}
+#home #middle a { color:#ccc;}
+#home #middle a.project { font-weight:bold;}
+#home #middle a:hover { color:#fff;}
 
 #monthlyreleasereport { 
-	margin-left:20px; margin-right:20px;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; 
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; 
 	border: 1px solid #ccc; background-color:#f4f4f4; padding:5px; margin-top:10px; color:#666;
 }
 
@@ -106,7 +117,7 @@ form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; hei
 /* ----------------------------------------- FOOTER ---------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
-#footer { border-top: 1px solid #eee; padding-top:2px; margin:10px; color:#ccc; position:relative; height:20px;}
+#footer { border-top: 1px solid #eee; padding-top:2px; margin:10px; color:#999; position:relative; height:35px;}
 #footer .logo { position:absolute; left:-6px;}
 #footer .text { position:absolute; left:95px; top:3px;}
 #footer .text p { margin-top:0; padding-top:0}
@@ -138,7 +149,7 @@ form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; hei
 #nav li ul.under a { color: #333;}
 #nav li ul.under a:hover { background: #999; color: #fff;}
 
-#nav li.about { right:10px; position:absolute;}
+#nav li img { padding:1px;}
 
 #nav .sep { border-top:1px solid #ddd; width:300px }
 
@@ -178,7 +189,6 @@ form.inplaceeditor-form textarea { display: block; font-size: 13px;}
 form.inplaceeditor-form input[type="submit"] { margin-left:0; }
 .inplaceeditor-empty { color: #666;}
 .ehover { background-color:#ff9; }
-.reset { top:0; right:0; position: absolute; font-size: 12px;}
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- BUTTON WITH ICONS ----------------------------------------*/
@@ -191,12 +201,22 @@ form.inplaceeditor-form input[type="submit"] { margin-left:0; }
 /* ----------------------------------------- PRODUCT BACKLOG VIEW -------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
+strong.labelepic { font-size:10px;}
+strong.labelspike { color:#f00; font-size:10px;}
+strong.labelbug { color:#060; font-size:10px;}
+strong.labelimpediment { color:#666; font-size:10px;}
+
 #actionbar { position:relative; }
 #actionbar .right { position:absolute; right:0; top:10px; font-weight:bold; }
 
 td.icons { white-space: nowrap;}
 td.epic { background-color:#C7E09E; }
-tr.substory { border-right:3px solid #C7E09E;border-left:3px solid #C7E09E; background-color:#DDFFAC; }
+tr.substory { border-right:3px solid #C7E09E;border-left:3px solid #C7E09E; background-color:#DDFFAC;}
+
+tr.storyn .bug { background: url('../images/icons/bug.png') no-repeat center left; padding-left:28px;}
+tr.storyn .impediment { background: url('../images/icons/weather_clouds.png') no-repeat center left; padding-left:28px;}
+tr.storyn .spike { background: url('../images/icons/exclamation.png') no-repeat center left; padding-left:28px;}
+
 tr.firstsubstory { border-top:3px solid #C7E09E;}
 tr.lastsubstory { border-bottom:3px solid #C7E09E;}
 tr.blankline { margin:0; font-size:4px; padding:0;}
@@ -215,37 +235,53 @@ td.sid { background:#f4f4f4; !important; }
 .percent80 { background-color:#acebff; }
 .percent90 { background-color:#acdfff; }
 
+.reset, #productBacklog_addStory .waitingText { top:0; right:0; position: absolute; font-size: 12px;}
+.editStory_tagList { height:95px; overflow:auto;}
+
+ul.editStoryPanel { list-style: none; border-bottom:1px solid #666; margin:0; padding:3px;}
+ul.editStoryPanel li { color: #666; display:inline; margin-right:2px; padding:3px !important; font-size:12px; -moz-border-radius-topleft:4px; -webkit-border-top-left-radius:4px; -moz-border-radius-topright:4px; -webkit-border-top-right-radius:4px; cursor:pointer; background-color:#ccc;
+}
+ul.editStoryPanel li:hover { background-color:#999; color:#fff;}
+ul.editStoryPanel li.selected { background-color:#666; color:#fff; }
+
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- STORY MAP VIEW -------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 .storymap { }
 .storymapfirstcol { width:50px; float:left; background-color:#333; height:160px; color:#fff; font-weight: bold; text-align:center; }
-.storymapcolumn { width:220px; float:left; }
-.storypostit { width:198px; height:150px; padding:5px; margin-bottom:10px; position:relative;}
+.storymapcolumn { float:left; }
+.storypostit { width:198px; height:150px; padding:5px; margin-bottom:10px; position:relative; overflow:hidden; margin-right:10px;}
 .storymapepic { background-color:#C7E09E; border: 1px solid #C7E09E;}
 .storymapstory { background-color:#DDFFAC; border: 1px solid #C7E09E; }
 .storystandalonestory { background-color:#fff; border: 1px solid #ccc;}
 .storymapblank { width: 200px; height: 150px; padding:5px; margin-bottom:10px;}
-.storytimeline { background-color:#333; color: #fff; font-size: 18px; margin-top:10px; margin-bottom:10px; padding:5px;}
 .storymaprelease { position:absolute;bottom:5px; right:5px;}
 .storypostitdone { background-color: #eee !important; color:#999 !important; border: 1px solid #999; }
+
+div.storymapcolumn .bug, td.taskplaceholder .bug { background-image: url('../images/icons/bug.png'); background-repeat:no-repeat; background-position: top right;}
+div.storymapcolumn .impediment, td.taskplaceholder .impediment { background-image: url('../images/icons/weather_clouds.png'); background-repeat:no-repeat; background-position: top right;}
+div.storymapcolumn .bug, td.taskplaceholder .bug { background-image: url('../images/icons/bug.png'); background-repeat:no-repeat; background-position: top right;}
+div.storymapcolumn .spike, td.taskplaceholder .spike { background-image: url('../images/icons/exclamation.png'); background-repeat:no-repeat; background-position: top right;}
+
+.storypostitmedium { width:118px; height:90px;font-size:10px; padding:3px; margin-right:5px; margin-bottom:5px;}
+.storypostitsmall { width:80px; height:60px;font-size:8px; padding:2px; margin-right:3px; margin-bottom:3px;}
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- ROADMAP VIEW -------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
-#roadmap { position: relative; float: left;background-color: #DDD;width: 1526px;}
-#roadmap h3 { background-color:#ccc; color: #fff; font-size: 18px; padding:5px; margin:0; font-weight: normal; text-align: center;}
-#roadmap .sprints { float: left; border-right: 1px solid #ddd; background-color: #EEE; padding: 8px 0; text-align: center;}
-#roadmap #bar-sprints { margin-bottom: 4px; }
-#roadmap #bars { position: absolute; top: 80px; left: 0; z-index: 10; }
-
-#roadmap .line { margin:0; margin-bottom: 8px; background-color: #ccc; clear: both; position: relative; height:50px; text-align: center; color: #FFF; font-size: 12px;}
-#roadmap .line .project { float: left; width: 150px; padding: 15px 0 0; margin-right: 0px; background-color: #666; font-weight: bold; height:35px;}
-#roadmap .line .project a { color:#fff;}
-#roadmap .line .project a:hover { text-decoration:underline ;}
-#roadmap .line .epic-0 { float: left; padding: 0; display: block; background-color: #DDFFAC; overflow: hidden; height:50px; color:#000; }
-#roadmap .line .epic-1 { float: left; padding: 0; display: block; background-color: #C7E09E; overflow: hidden; height:50px; color:#000; }
+#roadmap { position: relative; float: left;background-color: #DDD;}
+#roadmap h3 { background-color:#ddd; color: #fff; font-size: 18px; padding:5px; margin:0; font-weight: normal; text-align: center;}
+#roadmap .sprints { float: left; border-right: 1px solid #ddd; background-color: #fafafa; padding-top: 10px; text-align: center; margin:0;}
+#roadmap .projectColumn { float: left; border-right: 1px solid #ddd; background-color: #fafafa; padding-top: 10px; text-align: center; margin:0; border-left:1px solid #ddd; width: 150px; }
+#roadmap .sprintColumn { float: left; border-right: 1px solid #ddd; background-color: #fafafa; padding-top: 10px; text-align: center; margin:0;}
+#roadmap #projects { position:absolute; top:40px; left:0; border-bottom:1px solid #ccc;}
+#roadmap #projects .project { margin:0; margin-bottom: 8px; background-color: #ccc; clear: both; position: relative; height:50px; text-align: center; color: #FFF; font-size: 12px; overflow:hidden;}
+#roadmap #projects .projectName { float: left; width: 152px; padding: 15px 0 0; margin-right: 0px; background-color: #666; font-weight: bold; height:50px;}
+#roadmap #projects .projectName a { color:#fff;}
+#roadmap #projects .projectName a:hover { text-decoration:underline ;}
+#roadmap #projects .project .epic-0 { float: left; padding: 0; display: block; background-color: #DDFFAC; overflow: hidden; height:50px; color:#000; }
+#roadmap #projects .project .epic-1 { float: left; padding: 0; display: block; background-color: #C7E09E; overflow: hidden; height:50px; color:#000; }
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- STORY NOTES ----------------------------------------------*/
@@ -283,6 +319,9 @@ p.response { border: 1px solid #ccc; padding:5px; background-color:#f4f4f4;}
 #usermanagement .innerSection h3 { margin:0;margin-bottom: 5px; color:#999; font-weight:normal;}
 #usermanagement .lineitem { margin: 2px; cursor: move; float: left; width:150px; background-color:#E4E4E4; color:#333; border:1px solid #CCC; height: 25px; background-image: url('../images/btng.gif');}
 #usermanagement .innerlineitem { padding: 2px; padding-left: 20px; height: 25px; background: url('../images/icons/user.png') no-repeat; background-position: 2px 2px; }
+
+#usermanagement .placeholder { background:none; float:left; margin: 2px; border:1px dotted #0C0; color:#0C0; width:150px; height:21px; text-align:center; padding-top:5px;}
+
 #allusers { background: url('../images/bg.png') repeat-x; border: 1px solid #ccc; width:97% }
 #allteam {margin-bottom: 20px; }
 
@@ -338,9 +377,6 @@ div.taskplaceholder { position:relative; min-height:150px; min-width:150px;}
 .taskpostitsmall .draggabletitle { width:58px; height:42px;font-size:8px;}
 .taskpostitsmall .inner { width:40px;font-size:8px;}
 
-.storypostitmedium { width:118px; height:90px;font-size:10px; padding:3px;}
-.storypostitsmall { width:80px; height:60px;font-size:8px; padding:2px;}
-
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- BURNDOWN CHART -------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
@@ -349,9 +385,14 @@ div.taskplaceholder { position:relative; min-height:150px; min-width:150px;}
 #sprintburndown td { border:0;}
 #sprintburndowndata { margin-top:20px;}
 
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- PROJECT STATS --------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
 
-
-
+#statsContainer { position:relative; }
+#statsContainer .graph { float:left; margin-right:40px; margin-bottom:40px; }
+#statsContainer .graph > div { width:400px;height:200px;}
+#statsContainer .graph h4 { text-align:center;}
 
 
 

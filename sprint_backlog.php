@@ -1,5 +1,5 @@
 <?php
-	$JS = array('sprint', 'sprintplanning', 'story', 'sprintbacklog', 'teamallocation', 'burndown', 'retro');		
+	$JS = array('sprint', 'sprintplanning', 'story', 'sprintbacklog', 'teamallocation', 'burndown', 'retro', 'resizingpostits');		
 	$menu = 2;
 	$includePortlet = '';
 	$pageTitle = '';	
@@ -35,14 +35,14 @@
 		
 		if (sizeof($TEAM) > 0) {
 ?>
-<form method="post" id="filtering" action="<?=$projectUrl?>">
+<form method="post" id="filtering" action="<?php echo $projectUrl?>">
 <div id="formgoalbox">
 	<div id="filteringoptions">
 		<div class="filters">
 			<h2>Filtering options</h2>
-			<input type="hidden" name="id" id="sprintBacklog_projectId" value="<?=$projectId?>"/>
-			<input type="hidden" name="sprintid" id="sprintBacklog_sprintId" value="<?=$sprintId?>"/>			
-			<input type="hidden" name="sprintnumber" id="sprintBacklog_sprintNumber" value="<?=$sprintNumber?>"/>			
+			<input type="hidden" name="id" id="sprintBacklog_projectId" value="<?php echo $projectId?>"/>
+			<input type="hidden" name="sprintid" id="sprintBacklog_sprintId" value="<?php echo $sprintId?>"/>			
+			<input type="hidden" name="sprintnumber" id="sprintBacklog_sprintNumber" value="<?php echo $sprintNumber?>"/>			
 			<input type="checkbox" name="showCompletedTasks" id="showCompletedTasks" value="1" <?php if ($showCompletedTasks == 1) echo 'checked="checked"'; ?>/> <label for="showCompletedTasks" style="margin-right:40px">Show completed tasks</label>
 	
 			<label for="viewtype">View:</label>
@@ -56,12 +56,11 @@
 		</div>
 	</div>
 <?php if (strlen($S->getGoal()) > 0) { ?>	
-	<div id="goals"><strong>Sprint goal:</strong> <?=$S->getGoal()?></div>
+	<div id="goals"><strong>Sprint goal:</strong> <?php echo $S->getGoal()?></div>
 <?php } ?>
 	<div class="clear"></div>
 </div>
 </form>
-<br/>
 
 <?php
 			if ($S->isClosed()) {
@@ -74,7 +73,7 @@
 ?>
 <div class="infoMsg">
 	<div class="inner">
-		No team has been set up for this project. <a href="./manage_project_team.php?id=<?=$projectId?>">Go and build your team &raquo;</a>
+		No team has been set up for this project. <a href="./manage_project_team.php?id=<?php echo $projectId?>">Go and build your team &raquo;</a>
 	</div>
 </div>
 <?php
@@ -82,8 +81,9 @@
 ?>
 
 <select id="teamMemberList">
+<option value="">None</option>
 <?php if ($TEAM) { foreach ($TEAM as $key => $member) { ?>
-<option value="<?=$member['login']?>"><?=$member['login']?></option>
+<option value="<?php echo $member['login']?>"><?php echo $member['login']?></option>
 <?php }} ?>
 </select>
 

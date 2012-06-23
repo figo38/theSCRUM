@@ -3,7 +3,7 @@
 	include_once '../_classes/classloader.php';
 	$epicId = $_REQUEST['id'];
 	$epicPrio = $_REQUEST['prio'];
-	$storyAcceptance = $_GET['acceptance'];
+	$storyAcceptance = $_REQUEST['acceptance'];
 	$storyTypeID = 1; // Child of EPIC is a STORY
 
 	$P = new Project($projectId);

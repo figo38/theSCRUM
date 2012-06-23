@@ -30,12 +30,17 @@
 			elseif (parent::isStandAlone()) { $classname = 'storystandalonestory'; }
 			else { $classname = 'storymapstory'; }
 			
+			if (parent::isBug()) { $classname .= ' bug'; }
+			if (parent::isImpediment()) { $classname .= ' impediment'; }
+			if (parent::isSpike()) { $classname .= ' spike'; }
+			
 			if ($this->isCompleted()) {
 				$classname .= ' storypostitdone';
 			}
 ?>
-<div class="storypostit <?=$classname?>" id="storypostit-<?=$id?>">
-	<strong><?php formatStoryId($id); ?></strong> <?php formatStoryType($storytype); ?> <?=$storyStory?>
+<div class="storypostit <?php echo $classname?>" id="storypostit-<?php echo $id?>">
+	<strong><?php formatStoryId($id); ?></strong> <?php formatStoryType($storytype); ?> <?php echo $storyStory?>
+<span id="story-url-<?php echo $id?>"><?php if (parent::isBug() && parent::getUrl() != NULL) { ?><a href="<?php echo parent::getUrl();?>" class="url">&raquo;</a><?php } ?></span>
 <?php if ($releaseid > 0) { ?>
 	<span class="storymaprelease"><?php echo displayReleaseName($releaseid); ?></span>
 <?php } ?>
@@ -73,7 +78,7 @@
 </tr>
 <tr class="lastsubstory">
 	<td colspan="3">&nbsp;</td>
-	<td class="epic"><strong><?=$this->getField('epictitle')?></strong></td>
+	<td class="epic"><strong><?php echo $this->getField('epictitle')?></strong></td>
 	<td>&nbsp;</td><?php if ($custom == 1) { ?>
 	<td>&nbsp;</td><?php } ?>
 </tr>
@@ -83,16 +88,16 @@
 				$currentEpic = 0;
 			}
 ?>
-<tr id="storyrow-<?=$id?>" class="storyn<?php if ($epicId > 0) { echo ' substory'; } ?>">
+<tr id="storyrow-<?php echo $id?>" class="storyn<?php if ($epicId > 0) { echo ' substory'; } ?>">
 	<td class="sid"><?php formatStoryId($id); ?></td>
-	<td<?php $this->sc();?>><a href="<?=PATH_TO_ROOT.'project/'.string2url($this->getField('projectname'))?>"><?=$this->getField('projectname')?></a></td>
-	<td<?php $this->sc();?><?php $this->pc();?>><?=parent::getPercentage()?>%</td>
-	<td<?php $this->sc();?>><?php echo img('accept.png', 'In the release'); ?><?php formatStoryType($storytype); ?> <?=$this->getStory()?></td>
-	<td<?php $this->sc();?>><?=nl2br($this->getAcceptance())?></td><?php if ($custom == 1) { ?>
+	<td<?php $this->sc();?>><a href="<?php echo PATH_TO_ROOT.'project/'.string2url($this->getField('projectname'))?>"><?php echo $this->getField('projectname')?></a></td>
+	<td<?php $this->sc();?><?php $this->pc();?>><?php echo parent::getPercentage()?>%</td>
+	<td<?php $this->sc();?>><?php echo img('accept.png', 'In the release'); ?><?php formatStoryType($storytype); ?> <?php echo $this->getStory()?></td>
+	<td<?php $this->sc();?>><?php echo nl2br($this->getAcceptance())?></td><?php if ($custom == 1) { ?>
 	<td<?php $this->sc();?>><?php if ($USERAUTH->isProductOwner()) { echo img('link_break.png', 'Delete the link story-release', 'deletelink-' . $id); } else { echo '&nbsp;'; } ?></td>
 <?php } ?>		
 </tr>
-<?
+<?php
 		}
 
 		/**
@@ -137,7 +142,7 @@
 				case (StoryDisplay::$SprintPlanningView):
 				case (StoryDisplay::$SprintBacklogView):
 				case (StoryDisplay::$ClosedSprintPlanningView):
-					$nbcolumnblankline = 9;
+					$nbcolumnblankline = 10;
 					break;					
 				default:
 					$nbcolumnblankline = 7;
@@ -161,24 +166,24 @@
 			if ($condition) {
 ?>
 <?php if (!$this->isSubStory()) { ?>
-<tr class="blankline" id="storyrowblankline-<?=$id?>">
-	<td colspan="<?=$nbcolumnblankline?>">&nbsp;</td>
+<tr class="blankline" id="storyrowblankline-<?php echo $id?>">
+	<td colspan="<?php echo $nbcolumnblankline?>">&nbsp;</td>
 </tr>
 <?php } ?>
-<tr id="storyrow-<?=$id?>" class="storyn<?php if (strlen($st) > 0) { echo ' ' . $st;} ?>"<?php echo $style; ?>>
+<tr id="storyrow-<?php echo $id?>" class="storyn<?php if (strlen($st) > 0) { echo ' ' . $st;} ?>"<?php echo $style; ?>>
 	<td class="sid"><?php formatStoryId($id); ?></td>
-	<td<?php $this->sc();?>><span id="story-prio-<?=$id?>"><?=parent::getPriority()?></span></td>
-	<td<?php $this->sc();?>><span id="story-estim-<?=$id?>"><?=parent::getEstimation()?></span><?=$projectUnit?></td>
-	<td id="percenttd-<?=$id?>" <?php $this->sc();?> <?php $this->pc();?>><span id="story-percentage-<?=$id?>"><?=parent::getPercentage()?></span>%</td>
-	<td id="storymaincell-<?=$id?>" <?php $this->sc();?><?php if (parent::isEpic()) { ?> class="epic"<?php } ?>>
+	<td<?php $this->sc();?>><span id="story-prio-<?php echo $id?>"><?php echo parent::getPriority()?></span></td>
+	<td<?php $this->sc();?>><span id="story-estim-<?php echo $id?>"><?php echo parent::getEstimation()?></span><?php echo $projectUnit?></td>
+	<td id="percenttd-<?php echo $id?>" <?php $this->sc();?> <?php $this->pc();?>><span id="story-percentage-<?php echo $id?>"><?php echo parent::getPercentage()?></span>%</td>
+	<td id="storymaincell-<?php echo $id?>" <?php $this->sc();?><?php if (parent::isEpic()) { ?> class="epic"<?php } ?><?php if (parent::isBug()) { ?> class="bug"<?php } ?><?php if (parent::isImpediment()) { ?> class="impediment"<?php } ?><?php if (parent::isSpike()) { ?> class="spike"<?php } ?>>
 		<div class="story">
-			<span style="display:none" id="storytype-<?=$id?>"><?=$storytype?></span>
-			<span id="storytypedisp-<?=$id?>"><?php formatStoryType($storytype); ?></span>
-			<span id="story-story-<?=$id?>"><?=nl2br(parent::getStory())?></span>		
-			<div class="storycomment"><?=img((!$hasComment) ? 'comment-light.png' : 'comment.png', 'Edit comment', 'storynotes-' . $id)?></div>
+			<span style="display:none" id="storytype-<?php echo $id?>"><?php echo $storytype?></span>
+			<span id="storytypedisp-<?php echo $id?>"><?php formatStoryType($storytype); ?></span>
+			<span id="story-story-<?php echo $id?>"><?php echo nl2br(parent::getStory())?></span>&nbsp;<span id="story-url-<?php echo $id?>"><?php if (parent::isBug() && parent::getUrl() != NULL) { ?><a href="<?php echo parent::getUrl();?>" class="url">&raquo;</a><?php } ?></span>
+			<div class="storycomment"><?php echo img((!$hasComment) ? 'comment-light.png' : 'comment.png', 'Edit comment', 'storynotes-' . $id)?></div>
 		</div>
 	</td>
-	<td<?php $this->sc();?> <?php if ($custom == StoryDisplay::$SprintPlanningView || $custom == StoryDisplay::$SprintBacklogView || $custom == StoryDisplay::$ClosedSprintPlanningView) {?>colspan="4"<?php } ?>><span id="story-criteria-<?=$id?>"><?=nl2br(parent::getAcceptance())?></span></td>
+	<td<?php $this->sc();?> <?php if ($custom == StoryDisplay::$SprintPlanningView || $custom == StoryDisplay::$SprintBacklogView || $custom == StoryDisplay::$ClosedSprintPlanningView) {?>colspan="4"<?php } ?>><span id="story-criteria-<?php echo $id?>"><?php echo nl2br(parent::getAcceptance())?></span></td>
 <?php
 	switch ($view) {
 		// View ProductBacklog: display icons (story details, story delete, add sub-story) only for the product owner
@@ -186,9 +191,9 @@
 			if ($USERAUTH->isScrumMasterOf($projectId) || $USERAUTH->isProductOwnerOf($projectId)) {
 ?>
 	<td<?php $this->sc();?> class="icons">
-    	<?=img('pencil.png', 'Show story details', 'details-' . $id)?>
-    	<?=img('delete.png', 'Delete the story', 'delete-' . $id)?>  
-        <?=img('add.png', 'Add a sub-story', 'addstory-' . $id, parent::isEpic() ? '' : 'hidden')?>      
+    	<?php echo img('pencil.png', 'Show story details', 'details-' . $id)?>
+    	<?php echo img('delete.png', 'Delete the story', 'delete-' . $id)?>  
+        <?php echo img('add.png', 'Add a sub-story', 'addstory-' . $id, parent::isEpic() ? '' : 'hidden')?>      
 	</td>
 <?php					
 			}

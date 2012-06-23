@@ -11,6 +11,7 @@
 	include_once 'class_usermanagement.php';
 	include_once 'class_productbacklog.php';
 	include_once 'class_featuregroup.php';
+	include_once 'class_taskdisplay.php';
 	include_once 'class_storydisplay.php';
 	include_once 'class_projectdisplay.php';
 	include_once 'class_featuregroupdisplay.php';
@@ -18,7 +19,6 @@
 	include_once 'class_releasedisplay.php';
 	include_once 'class_sprint.php';
 	include_once 'class_sprintdisplay.php';
-	include_once 'class_taskdisplay.php';
 	include_once 'class_sprint_snapshot.php';
 	
 	include_once '_functions.php';

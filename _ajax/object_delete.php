@@ -11,12 +11,12 @@
 	$objectname = $idtab[0];
 	$objectid = $idtab[2];	
 ?>
-<form id="task-delete-<?=$objectid?>" name="task-delete-<?=$objectid?>" method="post" action="#">
+<form id="task-delete-<?php echo $objectid?>" name="task-delete-<?php echo $objectid?>" method="post" action="#">
 <?php include $objectname . '/delete.php'; ?>
 
 <p>
-<button type="button" id="<?=$fieldId?>-go" class="delete">DELETE</button>
-<button type="button" id="<?=$fieldId?>-cancel">CANCEL</button>
+<button type="button" id="<?php echo $fieldId?>-go" class="delete">DELETE</button>
+<button type="button" id="<?php echo $fieldId?>-cancel">CANCEL</button>
 </p>
 
 </form>

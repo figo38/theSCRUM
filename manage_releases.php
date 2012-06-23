@@ -65,8 +65,8 @@
 	var release = new ReleaseMngt();
 	release.initAddReleaseButton();
 <?php foreach ($releases as $key => $release) { ?>
-	release.enableInteraction(<?=$release['id']?>);
-<? } ?>
+	release.enableInteraction(<?php echo $release['id']?>);
+<?php } ?>
 -->
 </script>
 <?php } ?>

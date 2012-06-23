@@ -5,39 +5,35 @@
 	include '_portlets/project_header.php';			
 ?>
 
-Number of sprint by quarter: <span id="project-sprintbyquarter-<?=$projectId?>"><?=$P->getSprintByQuarter()?></span>
-
-<h2>List of epics in the product backlog</h2>
-<?php
-	$epicsList = $P->getAllEpics();
-	if ($epicsList) {
-?>
 <table>
 <thead>
 <tr>
 	<th>#</th>
-	<th>Story</th>
-	<th>Estimate</th>
-	<th>Title</th>
-	<th>Displayed in Roadmap?</th>
+	<th>Estimate</th>    
+	<th>Epic</th>
+	<th>To be displayed in the roadmap?</th>
+	<th>Title used to display the epic in the roadmap</th>
 </tr>
 </thead>
 <tbody id="EPIC_list">	
 <?php
-	} else {
-		echo "no EPICs";
-	}
 
-	foreach ($epicsList as $key => $story) {
+	$epicsList = $P->getAllEpics();
+	if ($epicsList) {
+		foreach ($epicsList as $key => $story) {
 ?>	
-<tr id="storyrow-<?=$story['id']?>">
-	<td class="done">#<?=$story['id']?></td>
-	<td>(EPIC) <span id="story-<?=$story['id']?>"><?=$story['story']?></span></td>
-	<td><span id="estimation-<?=$story['id']?>"><?=$story['estimation']?></span></td>
-	<td><span id="story-title-<?=$story['id']?>"><?=$story['title']?></span></td>
-	<td><span id="story-isroadmapdisplayed-<?=$story['id']?>"><?=$story['isroadmapdisplayed']?></span></td>
+<tr class="blankline">
+	<td colspan="5">&nbsp;</td>
 </tr>
-<?php 
+<tr id="storyrow-<?php echo $story['id']?>">
+	<td class="sid"><?php formatStoryId($story['id'])?></td>
+	<td><span id="estimation-<?php echo $story['id']?>"><?php echo $story['estimation']?></span></td>
+	<td class="epic"><?php formatStoryType(2); ?> <span id="story-<?php echo $story['id']?>"><?php echo $story['story']?></span></td>
+	<td><input type="checkbox" id="story-isroadmapdisplayed-<?php echo $story['id']?>" <?php if ($story['isroadmapdisplayed']==1) { echo 'checked="checked"'; } ?>/></td>
+	<td><span id="story-title-<?php echo $story['id']?>"><?php echo $story['title']?></span></td>
+</tr>
+<?php
+		}
 	} 
 ?>
 </tbody>
@@ -47,10 +43,7 @@ Number of sprint by quarter: <span id="project-sprintbyquarter-<?=$projectId?>">
 <!--
 var story = new Story();
 <?php foreach ($epicsList as $key => $story) { ?>
-	story.enableInlineEditingRoadmap(<?=$story['id']?>);
-<? } ?>
-
-var project = new ProjectMngt();
-project.enableInlineEditingRoadmap(<?=$projectId?>);
+	story.enableInlineEditingRoadmap(<?php echo $story['id']?>);
+<?php } ?>
 -->	
 </script>

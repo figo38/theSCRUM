@@ -16,9 +16,9 @@
 <tbody>
 <?php foreach ($U as $key => $user) { ?>
 <tr>
-	<td><?=$user['login']?></td>
+	<td><?php echo $user['login']?></td>
 	<td><input type="checkbox" <?php if ($user['is_admin'] == 1) { ?>checked="checked"<?php } ?>></td>
-	<td><?=$user['last_login_date']?></td>
+	<td><?php echo $user['last_login_date']?></td>
 </tr>
 <?php } ?>
 </tbody>

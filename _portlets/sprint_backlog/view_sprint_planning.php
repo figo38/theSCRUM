@@ -1,3 +1,5 @@
+<br/>
+
 <?php
 	$ALLOCATION = $S->getTeamAllocation();	
 	$UNIT = $S->getUnit();
@@ -7,8 +9,8 @@
 
 <?php if ($S->getSprintNumber() > 1 && !$S->hasTasksCopiedFromPrevious()) { ?>
 <form method="post" action="#">
-<input type="hidden" name="id" value="<?=$projectId?>"/>
-<input type="hidden" name="sprintid" value="<?=$sprintId?>"/>	
+<input type="hidden" name="id" value="<?php echo $projectId?>"/>
+<input type="hidden" name="sprintid" value="<?php echo $sprintId?>"/>	
 <input type="hidden" name="showCompletedTasks" value="1"/>
 <input type="hidden" name="copyFromPreviousSprint" value="1"/>
 
@@ -38,9 +40,11 @@
 </thead>
 <tbody>
 <?php 
-	foreach ($stories as $key => $story) { 
-		$D = new StoryDisplay($story);
-		$D->render(($S->isClosed() ? StoryDisplay::$ClosedSprintPlanningView : StoryDisplay::$SprintPlanningView), $TASKS);
+	if ($stories) {
+		foreach ($stories as $key => $story) { 
+			$D = new StoryDisplay($story);
+			$D->render(($S->isClosed() ? StoryDisplay::$ClosedSprintPlanningView : StoryDisplay::$SprintPlanningView), $TASKS);
+		}
 	}
 ?>
 </tbody>
@@ -56,7 +60,7 @@
 ?>
 <div id="allocationtable">
 <table>
-<caption>Team allocation: <?=$S->getNrHoursPerDay()?> <?=$UNIT?>/day for <?=$S->getNrDays()?> days <span id="allocationtableshowhide">(Show details)</span></caption>
+<caption>Team allocation: <?php echo $S->getNrHoursPerDay()?> <?php echo $UNIT?>/day for <?php echo $S->getNrDays()?> days <span id="allocationtableshowhide">(Show details)</span></caption>
 <thead id="teamallocationtable_thead" class="hidden">
 <tr>
 	<th>Team member</th>
@@ -69,9 +73,9 @@
 <tfoot>
 <tr>
 	<td colspan="2"><strong>Team:</strong></td>
-	<td><span id="totalAvail"><?=$totalavailable?></span><?=$UNIT?></td>
-	<td><span id="totalEstim"></span><?=$UNIT?></td>
-	<td><span id="totalRemain"></span><?=$UNIT?></td>
+	<td><span id="totalAvail"><?php echo $totalavailable?></span><?php echo $UNIT?></td>
+	<td><span id="totalEstim"></span><?php echo $UNIT?></td>
+	<td><span id="totalRemain"></span><?php echo $UNIT?></td>
 </tr>
 </tfoot>
 <tbody id="teamallocationtable_tbody" class="hidden">
@@ -81,11 +85,11 @@
 		$available = round($S->getNrDays() * $S->getNrHoursPerDay() * $percentage / 100);
 ?>
 <tr>
-	<td class="teammember"><div class="inner"><?=$member['login']?></div></td>
-	<td><?=$percentage?>%</td>
-	<td><span id="totalAvail-<?=$member['login']?>"><?=$available?></span><?=$UNIT?></td>
-	<td><span id="totalEstim-<?=$member['login']?>"></span><?=$UNIT?></td>
-	<td><span id="totalRemain-<?=$member['login']?>"></span><?=$UNIT?></td>
+	<td class="teammember"><div class="inner"><?php echo $member['login']?></div></td>
+	<td><?php echo $percentage?>%</td>
+	<td><span id="totalAvail-<?php echo $member['login']?>"><?php echo $available?></span><?php echo $UNIT?></td>
+	<td><span id="totalEstim-<?php echo $member['login']?>"></span><?php echo $UNIT?></td>
+	<td><span id="totalRemain-<?php echo $member['login']?>"></span><?php echo $UNIT?></td>
 </tr>
 <?php } ?>
 </tbody>
@@ -98,12 +102,12 @@ var tasks = new SprintPlanning();
 <?php if ($USERAUTH->isScrumMasterOf($projectId) || $USERAUTH->isProductOwnerOf($projectId)) { ?>
 tasks.initWriteMode();
 <?php foreach ($TASKS as $key => $task) { ?>
-tasks.enableInteraction(<?=$task['id']?>, <?=$task['storyid']?>);
+tasks.enableInteraction(<?php echo $task['id']?>, <?php echo $task['storyid']?>);
 <?php } ?>
 
 <?php foreach ($stories as $key => $story) { 
 if ($story['percentage'] < 100 && $story['storytype'] != 2) { ?>
-tasks.enableInteractionOnStory(<?=$story['id']?>);
+tasks.enableInteractionOnStory(<?php echo $story['id']?>);
 <?php }}} else { ?>
 tasks.initReadMode();
 <?php } ?>

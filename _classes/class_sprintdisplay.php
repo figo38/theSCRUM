@@ -28,28 +28,28 @@
 			
 			$current = $this->getField('current');
 ?>
-<tr class="sprint<?php if ($this->isClosed()) { echo ' done';} ?>" id="sprintrow-<?=$id?>"<?php echo $style; ?>>	
-	<td class="sid">#<?=$nb?><?php if ($current ==1) {?> <strong>(Current sprint)</strong><?php } ?></td>
+<tr class="sprint<?php if ($this->isClosed()) { echo ' done';} ?>" id="sprintrow-<?php echo $id?>"<?php echo $style; ?>>	
+	<td class="sid">#<?php echo $nb?><?php if ($current ==1) {?> <strong>(Current sprint)</strong><?php } ?></td>
 	<td>
-		<div id="sprint-startdate-<?=$id?>" class="editable sprint-startdate-<?=$id?>"><?php if (!empty($startdate)) { echo $startdate;} else { echo '(Click to edit...)'; } ?></div>	 
+		<div id="sprint-startdate-<?php echo $id?>" class="editable sprint-startdate-<?php echo $id?>"><?php if (!empty($startdate)) { echo $startdate;} else { echo '(Click to edit...)'; } ?></div>	 
 	</td>
 	<td >
-		<div id="sprint-enddate-<?=$id?>" class="editable sprint-enddate-<?=$id?>"><?php if (!empty($enddate)) { echo $enddate;} else { echo '(Click to edit...)'; } ?></div>
+		<div id="sprint-enddate-<?php echo $id?>" class="editable sprint-enddate-<?php echo $id?>"><?php if (!empty($enddate)) { echo $enddate;} else { echo '(Click to edit...)'; } ?></div>
 	</td>
-	<td><span id="sprint-nrdays-<?=$id?>"><?=$this->getNrDays()?></span></td>
-	<td><span id="sprint-unit-<?=$id?>"><?=$this->getUnit()?></span></td>	
-	<td><span id="sprint-nbhours-<?=$id?>"><?=$this->getNrHoursPerDay()?></span></td>
-	<td><span id="sprint-goal-<?=$id?>"><?=nl2br($goal)?></span></td>
-	<td><input type="checkbox" id="sprint-closed-<?=$id?>" <?php if ($this->isClosed()) { echo 'checked="checked"'; } ?>/></td>
+	<td><span id="sprint-nrdays-<?php echo $id?>"><?php echo $this->getNrDays()?></span></td>
+	<td><span id="sprint-unit-<?php echo $id?>"><?php echo $this->getUnit()?></span></td>	
+	<td><span id="sprint-nbhours-<?php echo $id?>"><?php echo $this->getNrHoursPerDay()?></span></td>
+	<td><span id="sprint-goal-<?php echo $id?>"><?php echo nl2br($goal)?></span></td>
+	<td><input type="checkbox" id="sprint-closed-<?php echo $id?>" <?php if ($this->isClosed()) { echo 'checked="checked"'; } ?>/></td>
 	<td>
-		<a href="<?=$projectUrl?>/sprintbacklog/<?=$nb?>"><?=img('page_white_go.png', 'Go to sprint backlog')?></a>	
+		<a href="<?php echo $projectUrl?>/sprintbacklog/<?php echo $nb?>"><?php echo img('page_white_go.png', 'Go to sprint backlog')?></a>	
 <?php if ($USERAUTH->isScrumMasterOf($projectId)) { ?>
-		<?=img('time.png', 'Time allocation', 'sprint-time-' . $id)?>
-		<?=img('delete.png', 'Delete the sprint', 'sprint-delete-' . $id)?>
+		<?php echo img('time.png', 'Time allocation', 'sprint-time-' . $id)?>
+		<?php echo img('delete.png', 'Delete the sprint', 'sprint-delete-' . $id)?>
 <?php } ?>
 	</td>
 </tr>
-<?
+<?php
 		}
 
 	}

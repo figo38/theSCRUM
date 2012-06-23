@@ -1,9 +1,15 @@
 <?php
 	class Story extends PBObject {
+		
+		const STORY=1;
+		const EPIC=2;
+		const SPIKE=3;
+		const BUG=4;
+		const IMPEDIMENT=5;
 
 		protected $sqlTableName = 'story';
 		protected $sqlIdField = 'sto_id';
-		protected $readSqlStatement = 'SELECT sto_id id, pro_id projectid, sto_prio priority, sto_estim estimation, sto_percentage percentage, sto_story story, sto_acceptance acceptance, sto_type storytype, sto_update_date, sto_create_date, usr_login, epi_id, epi_id epicid, rel_id releaseid, sto_comment, LENGTH(sto_comment) lengthcomment FROM story WHERE sto_id=?';
+		protected $readSqlStatement = 'SELECT sto_id id, pro_id projectid, sto_prio priority, sto_estim estimation, sto_percentage percentage, sto_story story, sto_acceptance acceptance, sto_type storytype, sto_update_date, sto_create_date, usr_login, epi_id, epi_id epicid, rel_id releaseid, sto_comment, LENGTH(sto_comment) lengthcomment, sto_url url FROM story WHERE sto_id=?';
 
 		public function getEpicId() { return $this->getField('epicid', 0); }
 
@@ -21,12 +27,15 @@
 		public function getComment() { return $this->getField('sto_comment'); }
 		public function getLengthComment() { return $this->getField('lengthcomment'); }
 		public function getStory() { return $this->getField('story'); }
+		public function getUrl() { return $this->getField('url'); }
 
 		public function isCompleted() { return ($this->getField('percentage') == 100); }
 	
 		public function isStory() { return ($this->getField('storytype') == 1); }
 		public function isEpic() { return ($this->getField('storytype') == 2); }
 		public function isSpike() { return ($this->getField('storytype') == 3); }
+		public function isBug() {return ($this->getField('storytype') == 4); }
+		public function isImpediment() {return ($this->getField('storytype') == 5); }
 		public function isStandAlone() { return (!$this->isEpic() && !$this->isSubStory()); }
 		public function isSubStory() { return ($this->getField('epicid') > 0); }
 
@@ -70,6 +79,16 @@
 			global $DB;
 			global $USERAUTH;
 			$sth = $DB->prepare('UPDATE story SET sto_story=?, usr_login=?, sto_update_date=NOW() WHERE sto_id=?');
+			$sth->bindParam(1, $content, PDO::PARAM_STR);
+			$sth->bindParam(2, $USERAUTH->getUserLogin());
+			$sth->bindParam(3, $this->id, PDO::PARAM_INT);
+			return Helpers::executeStatement($sth);
+		}
+
+		public function updateURL($content) {
+			global $DB;
+			global $USERAUTH;
+			$sth = $DB->prepare('UPDATE story SET sto_url=?, usr_login=?, sto_update_date=NOW() WHERE sto_id=?');
 			$sth->bindParam(1, $content, PDO::PARAM_STR);
 			$sth->bindParam(2, $USERAUTH->getUserLogin());
 			$sth->bindParam(3, $this->id, PDO::PARAM_INT);
@@ -151,16 +170,15 @@
 			$sth->bindParam(1, $releaseId, PDO::PARAM_INT);
 			$sth->bindParam(2, $this->id, PDO::PARAM_INT);
 			return Helpers::executeStatement($sth);
-                }
+		}
 
-                public function deleteLinkRelease() {
-                        global $DB;
-                        global $USERAUTH;
-                        $sth = $DB->prepare('UPDATE story SET rel_id=NULL where sto_id=?');
-                        $sth->bindParam(1, $this->id, PDO::PARAM_STR);
-
-                        return Helpers::executeStatement($sth);
-                }
+		public function deleteLinkRelease() {
+			global $DB;
+			global $USERAUTH;
+			$sth = $DB->prepare('UPDATE story SET rel_id=NULL where sto_id=?');
+			$sth->bindParam(1, $this->id, PDO::PARAM_STR);
+			return Helpers::executeStatement($sth);
+		}
 
 		public function updateTitle($content) {
 			global $DB;
@@ -193,6 +211,35 @@
 			}
 			parent::delete();
 			return $idsstring;
+		}
+		
+		/**
+		  * Check if the given ID belongs to a valid epic. Used to move a standalone story inside an epic
+		  * @param id Epic ID to check
+		  * @return true or false
+		  */
+		public static function isValidEpicId($epicid) {
+			global $DB;			
+			$sth = $DB->prepare('SELECT sto_type FROM story WHERE sto_id=?');			
+			$sth->bindParam(1, $epicid, PDO::PARAM_INT);
+			$tab = Helpers::fetchOneRow($sth);
+			
+			return ($tab && $tab['sto_type'] == Story::EPIC);
+		}
+		
+		public function moveToEpic($epicId) {
+			global $DB;
+			$sth = $DB->prepare('UPDATE story SET epi_id=?, sto_prio=0 WHERE sto_id=?');			
+			$sth->bindParam(1, $epicId, PDO::PARAM_INT);
+			$sth->bindParam(2, $this->id, PDO::PARAM_INT);
+			return Helpers::executeStatement($sth);			
+		}
+
+		public function moveOutsideEpic() {
+			global $DB;
+			$sth = $DB->prepare('UPDATE story SET epi_id=NULL, sto_prio=0 WHERE sto_id=?');			
+			$sth->bindParam(1, $this->id, PDO::PARAM_INT);
+			return Helpers::executeStatement($sth);			
 		}
 	}
 ?>

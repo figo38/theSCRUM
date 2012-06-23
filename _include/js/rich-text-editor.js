@@ -3,7 +3,7 @@ var StoryNotes = Class.create({
 	enableInteraction: function(storyId) {
 		var richTextEditor = new nicEditor({
 			buttonList : ['save','bold','italic','underline','strikethrough','fontFormat','forecolor','left','center','right','justify','ol','ul','indent','outdent','removeformat','link','unlink','image'],
-			iconsPath : PATH_TO_ROOT + '/images/nicEditorIcons.gif',
+			iconsPath : PATH_TO_ROOT + 'images/nicEditorIcons.gif',
 			onSave : function(content, id, instance) {
 				new Ajax.Request(PATH_TO_ROOT + '_ajax/story/update_comment.php', {
 					method: 'post',

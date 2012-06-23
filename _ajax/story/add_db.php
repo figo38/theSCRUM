@@ -2,37 +2,20 @@
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 	
-	$projectId = $_POST['id'];
-	$storyStory = trim($_POST['story']);
-	$storyAcceptance = trim($_POST['acceptance']);
-	$storyType = $_POST['storytype'];
-
-	$storyTypeID = 1;
-	switch ($storyType) {
-		case 'STORY':
-			$storyTypeID = 1;
-			break;
-		case 'EPIC':
-			$storyTypeID = 2;
-			break;
-		case 'SPIKE':
-			$storyTypeID = 3;
-			break;
+	$projectId = $_REQUEST['id'];
+	$storyStory = trim($_REQUEST['story']);
+	$storyAcceptance = trim($_REQUEST['acceptance']);
+	$storyTypeID = isset($_REQUEST['storytype']) && is_numeric($_REQUEST['storytype']) ? (integer)$_REQUEST['storytype'] : 1;
+	$url = isset($_REQUEST['url']) ? trim($_REQUEST['url']) : NULL;
+	if ($storyTypeID != 4) {
+		$url = NULL;
 	}
 
-	$P = new Project($projectId, true);
-	$storyId = $P->addStory($storyStory, $storyAcceptance, $storyTypeID);
+	$P = new Project($projectId, true);	
+	$storyId = $P->addStory($storyStory, $storyAcceptance, $storyTypeID, NULL, $url);
 	$projectUnit = $P->getUnit();
 
-	$D = new StoryDisplay(array(
-		'id' => $storyId,
-		'priority' => 0,
-		'estimation' => 0,
-		'percentage' => 0,
-		'story' => $storyStory,
-		'acceptance' => $storyAcceptance,
-		'storytype' => $storyTypeID
-	));
+	$D = new StoryDisplay($storyId);
 	$D->setDisplayNone(true);
 	$D->render();
 ?>

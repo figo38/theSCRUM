@@ -4,9 +4,13 @@
 		private $userlogin = NULL;
 
 		function __construct() {
-			if (!isset($_SESSION['_auth_user'])) {
-				if (isset($_SERVER["PHP_AUTH_USER"])) {
-					$this->userlogin = $_SERVER["PHP_AUTH_USER"];
+			if (!isset($_SESSION['_auth_user'])) {				
+				if (isset($_SERVER['PHP_AUTH_USER']) || isset($_SERVER['REMOTE_USER'])) {					
+					if (isset($_SERVER['PHP_AUTH_USER'])) {
+						$this->userlogin = $_SERVER['PHP_AUTH_USER'];
+					} else {						
+						$this->userlogin = $_SERVER['REMOTE_USER'];
+					}					
 					$U = new User($this->userlogin, true);
 					unset($_SESSION['_auth_user']);
 					$_SESSION['_auth_user'] = $U;

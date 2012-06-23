@@ -20,14 +20,14 @@
 			$name = $this->getName();
 			$style = ($this->displaynone) ? ' style="display:none"' : '';
 ?>
-<tr id="featuregrouprow-<?=$id?>"<?php echo $style; ?>>
-	<td><span id="featuregroup-name-<?=$id?>"><?=$name?></span></td>
+<tr id="featuregrouprow-<?php echo $id?>"<?php echo $style; ?>>
+	<td><span id="featuregroup-name-<?php echo $id?>"><?php echo $name?></span></td>
 	<td>
-    	<a href="<?=PATH_TO_ROOT.'tag/'.string2url($name)?>"><?=img('page_white_go.png', 'See all stories tagged with this tag')?></a>
+    	<a href="<?php echo PATH_TO_ROOT.'tag/'.string2url($name)?>"><?php echo img('page_white_go.png', 'See all stories tagged with this tag')?></a>
         <?php if ($USERAUTH->isAdmin()) { echo img('delete.png', 'Delete the tag', 'featuregroup-delete-' . $id); } ?>
 	</td>    
 </tr>
-<?
+<?php
 		}
 
 	}

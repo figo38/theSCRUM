@@ -1,5 +1,5 @@
 <?php
-	$JS = array('productbacklog', 'story');	
+	$JS = array('productbacklog', 'story', 'resizingpostits');	
 	$menu = 1;
 	$includePortlet = '';
 	$pageTitle = '';
@@ -21,12 +21,12 @@
 		'includecompleted' => $showCompletedStories
 	));
 ?>
-<form method="post" id="filtering" action="<?=$projectUrl?>">
+<form method="post" id="filtering" action="<?php echo $projectUrl?>">
 <div id="formgoalbox">
 	<div id="filteringoptions">
 		<div class="filters">
 			<h2>Filtering options</h2>
-			<input type="hidden" name="id" id="productBacklog_projectId" value="<?=$projectId?>"/>
+			<input type="hidden" name="id" id="productBacklog_projectId" value="<?php echo $projectId?>"/>
 			<input type="checkbox" name="showCompletedStories" id="showCompletedStories" value="1" <?php if ($showCompletedStories == 1) echo 'checked'; ?>/> <label for="showCompletedStories" style="margin-right:40px">Show completed stories</label>
 	
 			<label for="viewtype">View:</label>
@@ -39,7 +39,7 @@
 		</div>
 	</div>
 <?php if (strlen($P->getGoal()) > 0) { ?>	
-	<div id="goals"><strong>Project goal:</strong> <?=$P->getGoal()?></div>
+	<div id="goals"><strong>Project goal:</strong> <?php echo $P->getGoal()?></div>
 <?php } ?>
 	<div class="clear"></div>
 </div>

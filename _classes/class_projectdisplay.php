@@ -20,18 +20,18 @@
 			$velocity = $this->getVelocity();	
 			$style = ($this->displaynone) ? ' style="display:none"' : '';
 ?>
-<tr class="project" id="projectrow-<?=$id?>"<?php echo $style; ?>>
-	<td><span id="project-name-<?=$id?>"><?=$name?></span></td>
-	<td><span id="project-unit-<?=$id?>"><?=$this->getUnit()?></span></td>		
-	<td><span id="project-velocity-<?=$id?>"><?=$velocity?></span></td>
-	<td><span id="project-goal-<?=$id?>"><?=nl2br($this->getGoal())?></span></td>	
-	<td><input type="checkbox" id="project-hassprint-<?=$id?>" <?php if ($this->hasSprints()) { echo 'checked="checked"'; } ?>/></td>
+<tr class="project" id="projectrow-<?php echo $id?>"<?php echo $style; ?>>
+	<td><span id="project-name-<?php echo $id?>"><?php echo $name?></span></td>
+	<td><span id="project-unit-<?php echo $id?>"><?php echo $this->getUnit()?></span></td>		
+	<td><span id="project-velocity-<?php echo $id?>"><?php echo $velocity?></span></td>
+	<td><span id="project-goal-<?php echo $id?>"><?php echo nl2br($this->getGoal())?></span></td>	
+	<td><input type="checkbox" id="project-hassprint-<?php echo $id?>" <?php if ($this->hasSprints()) { echo 'checked="checked"'; } ?>/></td>
 	<td>
-		<a href="<?=PATH_TO_ROOT.'project/'.string2url($name)?>"><?=img('page_white_go.png', 'Go to project page')?></a>
+		<a href="<?php echo PATH_TO_ROOT.'project/'.string2url($name)?>"><?php echo img('page_white_go.png', 'Go to project page')?></a>
 		<?php if ($USERAUTH->isAdmin()) { echo img('delete.png', 'Delete the project', 'project-delete-' . $id);}?>
 	</td>
 </tr>
-<?
+<?php
 		}
 	}
 ?>

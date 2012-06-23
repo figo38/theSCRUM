@@ -9,19 +9,31 @@
 	$cond = ($USERAUTH->isScrumMasterOf($projectId) || $USERAUTH->isAdmin());
 
 	function displayUsers($USERS, $type) {
+		global $cond;
 		foreach ($USERS as $key => $user) { 
-			if ($user['role'] == $type) { ?>
-		<div class="lineitem" id="user_<?=$user['login']?>"><div class="innerlineitem"><?=$user['login']?></div></div>
-<?php }}} ?>
+			if ($user['role'] == $type) { 
+				$login = $user['login'];
+			?>
+		<div class="lineitem" id="user_<?php echo $login?>"><div class="innerlineitem"><?php echo $login?></div></div>
+<?php 
+			}
+		}
+		if ($cond) {
+?>
+		<div class="lineitem placeholder">Drag user here</div>
+<?php
+		} 
+	}
+?>
 
 <div id="usermanagement">
 	<div id="allteam">	
 		<div class="section">
 			<div class="innerSection" id="productowners">
 				<h3 class="handle">Product owner</h3>
-<?php if ($cond) { ?>					
+<?php if ($cond) { ?>
 				<p>You should assign only one product owner to the project; however, it may be useful defining two product owners in case of holidays...</p>
-<?php } displayUsers($USERS, 'P'); ?>				
+<?php } displayUsers($USERS, 'P'); ?>
 			</div>
 		</div>
 
@@ -58,7 +70,8 @@
 <?php if ($cond) { ?>
 <script type="text/javascript">
 <!--
-var projectpeople = new ProjectPeople(<?=$projectId?>);
+var projectpeople = new ProjectPeople();
+projectpeople.init(<?php echo $projectId?>);
 -->
 </script>
 <?php } ?>

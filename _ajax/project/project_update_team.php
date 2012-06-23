@@ -2,9 +2,9 @@
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 
-	$projectId = $_GET['id'];
-	$peopleList = $_GET['peoplelist'];
-	$listType = $_GET['listtype'];
+	$projectId = $_REQUEST['id'];
+	$peopleList = $_REQUEST['peoplelist'];
+	$listType = $_REQUEST['listtype'];
 
 	$P = new Project($projectId);
 	

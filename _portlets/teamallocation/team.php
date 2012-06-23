@@ -12,8 +12,8 @@
 	$allocation = isset($ALLOCATION[$member['login']]) ? $ALLOCATION[$member['login']] : '';
 ?>
 <tr>
-	<td class="teammember"><div class="inner"> <?=$member['login']?></div></td>
-	<td><span id="team-percentage-<?=$member['login']?>-<?=$sprintId?>"><?=$allocation?></span>%</td>
+	<td class="teammember"><div class="inner"> <?php echo $member['login']?></div></td>
+	<td><span id="team-percentage-<?php echo $member['login']?>-<?php echo $sprintId?>"><?php echo $allocation?></span>%</td>
 </tr>
 <?php } ?>
 </tbody>
@@ -25,7 +25,7 @@
 
 var ta = new TeamAllocation();
 <?php foreach ($TEAM as $key => $member) { ?>
-ta.enableInteraction('<?=$member['login'].'-'.$sprintId?>');
+ta.enableInteraction('<?php echo $member['login'].'-'.$sprintId?>');
 <?php } ?>
 
 -->

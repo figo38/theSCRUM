@@ -7,13 +7,13 @@
 <title>Edit story note</title>
 <script type="text/javascript">
 <!-- 
-var PATH_TO_ROOT = '<?=PATH_TO_ROOT?>';
+var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 -->
 </script>
-<script type="text/javascript" src="<?=PATH_TO_ROOT?>_include/protoaculous.1.8.2.p1.6.1.min.js"></script>
-<script type="text/javascript" src="<?=PATH_TO_ROOT?>_include/nicEdit.js"></script>
-<script type="text/javascript" src="<?=PATH_TO_ROOT?>_include/js/rich-text-editor.js"></script>
-<link rel="stylesheet" href="<?=PATH_TO_ROOT?>_include/styles.css" type="text/css" media="screen" />
+<script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/protoaculous.1.8.3.min.js"></script>
+<script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/nicEdit.js"></script>
+<script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/js/rich-text-editor.js"></script>
+<link rel="stylesheet" href="<?php echo PATH_TO_ROOT?>_include/styles.css" type="text/css" media="screen" />
 <style>
 <!--
 body { background: none;}
@@ -33,7 +33,7 @@ body { background: none;}
 <script type="text/javascript">
 <!--
 	var storynotesinstance = new StoryNotes();
-	storynotesinstance.enableInteraction(<?=$storyId?>);
+	storynotesinstance.enableInteraction(<?php echo $storyId?>);
 -->	
 </script>
 <?php } else {?>

@@ -89,7 +89,7 @@
 											$viewtype = 2; 
 											include 'product_backlog.php'; 
 											break;										
-										
+
 										// ------------------------------------- Sprint backlog views										
 										// Logic shared for the different views of the Sprint Backlog
 										case 'sprintbacklog':
@@ -150,6 +150,7 @@
 										case 'team': include 'manage_project_team.php'; break;
 										case 'roadmap': include 'manage_roadmap.php'; break;
 										case 'sprints': include 'project_configuration.php'; break;
+										case 'stats': include 'project_stats.php'; break;
 										
 										// By default, we redirect the unknown page to a 404 page
 										default: 

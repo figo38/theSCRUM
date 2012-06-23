@@ -1,3 +1,5 @@
+<br/>
+
 <div class="infoMsg">
 	<div class="inner">The sprint is now closed.</div>
 </div>
@@ -12,8 +14,8 @@
 </thead>
 <tbody>
 <tr>
-	<td style="width:50%"><span id="sprint-retro1-<?=$sprintId?>"><?=nl2br($S->getRetro1())?></span></td>
-    <td style="width:50%"><span id="sprint-retro2-<?=$sprintId?>"><?=nl2br($S->getRetro2())?></span></td>
+	<td style="width:50%"><span id="sprint-retro1-<?php echo $sprintId?>"><?php echo nl2br($S->getRetro1())?></span></td>
+    <td style="width:50%"><span id="sprint-retro2-<?php echo $sprintId?>"><?php echo nl2br($S->getRetro2())?></span></td>
 </tr>
 </tbody>
 </table>
@@ -53,11 +55,11 @@
 		}
 ?>
 <tr>
-	<td><?=$title?></td>
-	<td><?=round($val['nbtasks'] / $totalnbtasks * 100)?>%</td>
-	<td><?=$val['totalestim']?><?=$UNIT?></td>
-	<td><?=$val['totalreestim']?><?=$UNIT?></td>
-	<td><?=$val['worked']?><?=$UNIT?></td>	
+	<td><?php echo $title?></td>
+	<td><?php echo round($val['nbtasks'] / $totalnbtasks * 100)?>%</td>
+	<td><?php echo $val['totalestim']?><?php echo $UNIT?></td>
+	<td><?php echo $val['totalreestim']?><?php echo $UNIT?></td>
+	<td><?php echo $val['worked']?><?php echo $UNIT?></td>	
 </tr>
 <?php
 	}

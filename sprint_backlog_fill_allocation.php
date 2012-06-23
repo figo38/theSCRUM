@@ -8,7 +8,7 @@
 ?>
 <div class="infoMsg">
 	<div class="inner">
-		Pls fill the team allocation for this sprint. <a href="<?=$projectUrl?>/sprintbacklog">Start building the sprint backlog when it's done &raquo;</a></a>
+		Pls fill the team allocation for this sprint. <a href="<?php echo $projectUrl?>/sprintbacklog">Start building the sprint backlog when it's done &raquo;</a></a>
 	</div>
 </div>
 <?php

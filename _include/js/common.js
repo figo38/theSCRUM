@@ -108,7 +108,12 @@ var PBAddButton = Class.create({
 			hook: { target: 'topMiddle', tip: 'topLeft' },
 			ajax: {
 				url: PATH_TO_ROOT + '_ajax/object_add.php?objname=' + objectname + '&' + params,
-				options: { onComplete: function() {
+				options: { 
+					method: 'post',
+					onFailure: function(response) {
+						alert(response.statusText);
+					},
+					onComplete: function() {
 					// Once the "add story" pop-up is shown, add a Click event listener on the "add story" button
 					$('addnewobject_cancel').observe('click', function(event) {
 						Tips.hideAll();

@@ -23,10 +23,12 @@
 </tr>
 </thead>
 <tbody id="story_tbody">
-<?php 
-	foreach ($stories as $key => $story) { 
-		$D = new StoryDisplay($story);
-		$D->render();
+<?php
+	if ($stories) {
+		foreach ($stories as $key => $story) { 
+			$D = new StoryDisplay($story);
+			$D->render();
+		}
 	}
 ?>
 </tbody>
@@ -39,7 +41,7 @@ var productbackloginstance = new ProductBacklog();
 productbackloginstance.initAddStoryButton();
 var story = new Story();
 <?php foreach ($stories as $key => $story) { ?>
-story.enableInteraction(<?=$story['id']?>,<?=$story['storytype']?>,<?php if (strlen($story['epicid']) == 0) { echo '0'; } else { echo $story['epicid']; } ?>);
+story.enableInteraction(<?php echo $story['id']?>,<?php echo $story['storytype']?>,<?php if (strlen($story['epicid']) == 0) { echo '0'; } else { echo $story['epicid']; } ?>);
 <?php }} else { ?>
 productbackloginstance.initReadOnly();
 <?php } ?>

@@ -2,9 +2,9 @@
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 
-	$sprintId = $_GET['sprintid'];
-	$storyId = $_GET['id'];
-	$task = $_GET['task'];
+	$sprintId = $_REQUEST['sprintid'];
+	$storyId = $_REQUEST['id'];
+	$task = $_REQUEST['task'];
 
 	$S = new Sprint($sprintId, true);
 	$taskId = $S->addTask($storyId, $task);

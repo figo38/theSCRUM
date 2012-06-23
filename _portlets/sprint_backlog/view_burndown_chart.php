@@ -1,3 +1,5 @@
+<br/>
+
 <?php
 	$nbDays = $S->getNrDays();
 	$UNIT = $S->getUnit();
@@ -26,14 +28,14 @@
 	foreach($tab as $key => $val) {
 ?>
 <tr>
-	<td>Day <span class="dayindex"><?=$i?></span></td>
-    <td><span id="unit-remaining-<?=$i?>"><?=$val['sps_unit_remaining']?></span><?=$UNIT?></td>
-    <td><span id="unit-reestim-<?=$i?>"><?=$val['sps_unit_reestim']?></span><?=$UNIT?></td>    
-    <td id="task-todo-<?=$i?>"><?=$val['sps_tasks_todo']?></td>    
-    <td id="task-remaining-<?=$i?>"><?=$val['sps_tasks_todo'] + $val['sps_tasks_inprogress']?></td>    
+	<td>Day <span class="dayindex"><?php echo $i?></span></td>
+    <td><span id="unit-remaining-<?php echo $i?>"><?php echo $val['sps_unit_remaining']?></span><?php echo $UNIT?></td>
+    <td><span id="unit-reestim-<?php echo $i?>"><?php echo $val['sps_unit_reestim']?></span><?php echo $UNIT?></td>    
+    <td id="task-todo-<?php echo $i?>"><?php echo $val['sps_tasks_todo']?></td>    
+    <td id="task-remaining-<?php echo $i?>"><?php echo $val['sps_tasks_todo'] + $val['sps_tasks_inprogress']?></td>    
        
 </tr>
-<?
+<?php
 		$i++;
 	} 
 ?>
@@ -42,7 +44,7 @@
 <script type="text/javascript">
 <!--
 
-new BurndownChart( <?=$nbDays?>, <?=$totalEstim?>, <?=$nbTasks?>, '<?=$UNIT?>');
+new BurndownChart( <?php echo $nbDays?>, <?php echo $totalEstim?>, <?php echo $nbTasks?>, '<?php echo $UNIT?>');
 
 -->
 </script>

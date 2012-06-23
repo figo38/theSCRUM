@@ -11,5 +11,5 @@
 	
 	// DO NOT MODIFY BELOW THIS LINE :)
 	define('DATE_FORMAT', '%Y-%m-%d');
-	define('THESCRUM_VERSION', '0.5');
+	define('THESCRUM_VERSION', '0.55');
 ?>

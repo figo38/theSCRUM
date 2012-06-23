@@ -47,7 +47,7 @@
 <?php if ($USERAUTH->isScrumMasterOf($projectId)) { ?>
 <script type="text/javascript">
 <!--
-new SprintMngt().init(<?=$projectId?>);
+new SprintMngt().init(<?php echo $projectId?>);
 -->	
 </script>
 <?php } ?>

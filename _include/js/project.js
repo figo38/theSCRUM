@@ -15,9 +15,6 @@ var ProjectMngt = Class.create({
 			new ProjectMngt().enableInteraction(projectId);
 		});
 	},
-	enableInlineEditingRoadmap: function(projectId) {
-		new PBInPlaceEditor('project-sprintbyquarter-' + projectId, {});
-	},
 	// Enable inline editing of project
 	enableInteraction: function(projectId) {
 		new PBInPlaceEditor('project-name-' + projectId, {});

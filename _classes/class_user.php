@@ -23,7 +23,7 @@
 
 		public function isAdmin() {			
 			$this->details = $this->getDetails();
-			$this->bIsAdmin = ($this->details['usr_is_admin'] == 1);			
+			$this->bIsAdmin = ($this->details['usr_is_admin'] == 1);	
 			return $this->bIsAdmin; 
 		}
 
@@ -38,8 +38,7 @@
 			global $DB;
 			$sth = $DB->prepare('SELECT usr_is_admin FROM user WHERE usr_login=?');
 			$sth->bindParam(1, $this->login, PDO::PARAM_STR);
-			$sth->execute();
-			return $sth->fetch(PDO::FETCH_ASSOC);
+			return Helpers::fetchOneRow($sth);
 		}
 
 		private function register() {

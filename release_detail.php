@@ -11,7 +11,7 @@
 	$pageTitle = 'Release - ' . $R->getDisplayName();
 	include '_include/header.php';	
 ?>
-<h1>Release &laquo;<?=$R->getDisplayName()?>&raquo;</h1>
+<h1>Release &laquo;<?php echo $R->getDisplayName()?>&raquo;</h1>
 
 <table>
 <thead>
@@ -43,9 +43,11 @@
 </thead>
 <tbody>
 <?php
-	foreach ($storiesList as $key => $story) {
-		$S = new StoryDisplay($story);
-		$S->renderSimpleView(1);	
+	if ($storiesList) {
+		foreach ($storiesList as $key => $story) {
+			$S = new StoryDisplay($story);
+			$S->renderSimpleView(1);	
+		}
 	}
 ?>
 </tbody>
@@ -55,9 +57,9 @@
 <script type="text/javascript">
 <!--
 var release = new ReleaseMngt();
-release.enableInteraction(<?=$releaseId?>);
+release.enableInteraction(<?php echo $releaseId?>);
 <?php foreach ($storiesList as $key => $story) { ?>
-release.enableLinkDeletion(<?=$story['id']?>);
+release.enableLinkDeletion(<?php echo $story['id']?>);
 <?php } ?>
 -->
 </script>

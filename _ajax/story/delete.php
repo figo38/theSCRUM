@@ -21,17 +21,17 @@
 		}		
 	}	
 ?>
-<form id="productBacklog_deleteStory_<?=$storyId?>" name="productBacklog_deleteStory_<?=$storyId?>" method="post" action="#">
+<form id="productBacklog_deleteStory_<?php echo $storyId?>" name="productBacklog_deleteStory_<?php echo $storyId?>" method="post" action="#">
 
-<p>This will <strong><?=$msg?></strong> and cannot be undone.</p>
+<p>This will <strong><?php echo $msg?></strong> and cannot be undone.</p>
 
 <?php if (strlen($msg2) > 0) { ?>
-<p>This will also permanently delete the <strong><?=$msg2?></p>
+<p>This will also permanently delete the <strong><?php echo $msg2?></p>
 <?php } ?>
 
 <p>
-<button type="button" id="productBacklog_deleteStory_delete_<?=$storyId?>" class="delete">DELETE</button>
-<button type="button" id="productBacklog_deleteStory_cancel_<?=$storyId?>">CANCEL</button>
+<button type="button" id="productBacklog_deleteStory_delete_<?php echo $storyId?>" class="delete">DELETE</button>
+<button type="button" id="productBacklog_deleteStory_cancel_<?php echo $storyId?>">CANCEL</button>
 </p>
 
 </form>

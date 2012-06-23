@@ -34,6 +34,41 @@ var ProductBacklog = Class.create({
 							$('new_story').value = '';
 							$('new_story').focus();
 						});
+						$('bug_url_field_emptyit').observe('click', function(event) {
+							$('bug_url_field_text').value = '';
+							$('bug_url_field_text').focus();
+						});
+												
+						$('bug_url_field_get_title').observe('click', function(event) {
+							$('bug_url_field_get_title').hide();
+							$('bug_url_field_waiting').show();
+							new Ajax.Request(PATH_TO_ROOT + '_ajax/get_title_from_url.php', {
+								method:'post',
+								parameters: { url: $F('bug_url_field_text') },
+								onComplete: function(transport){
+									$('bug_url_field_get_title').show();
+									$('bug_url_field_waiting').hide();
+									
+									if (transport.status == 200) {
+										$('new_story').value = transport.responseText;
+									}
+								},
+								onFailure: function(){
+									$('bug_url_field_error').show();
+									Effect.Fade('bug_url_field_error', { duration: 2.0 });
+								}
+							});							
+						});
+						
+						$$('#productBacklog_addStory input[type=radio]').each(function(elt){
+							elt.observe('click', function(event){
+								if (elt.value == 4) {
+									$('bug_url_field').show();
+								} else {
+									$('bug_url_field').hide();								
+								}
+							});
+						});
 					},
 					onFailure: function(){ alert('Something went wrong...') } 
 				}
@@ -82,6 +117,7 @@ var ProductBacklog = Class.create({
 			parameters: { 
 				story: $F('new_story'), 
 				acceptance: $F('new_acceptance'),
+				url: $F('bug_url_field_text'),
 				storytype: Form.getInputs('productBacklog_addStory','radio','new_story_type').find(function(radio) { return radio.checked; }).value,
 				id: projectId },
 			insertion: Insertion.Top,
