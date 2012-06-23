@@ -67,6 +67,7 @@ CREATE TABLE `project` (
   `pro_goal` text CHARACTER SET latin1,
   `pro_has_sprints` int(1) unsigned NOT NULL DEFAULT '0',
   `pro_unit` char(1) CHARACTER SET latin1 NOT NULL DEFAULT 'H',
+  `pro_generation_hour` CHAR(5) NOT NULL DEFAULT '23:00',
   PRIMARY KEY (`pro_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -128,6 +129,7 @@ CREATE TABLE `sprint` (
   `spr_copied_from_previous` char(1) CHARACTER SET latin1 NOT NULL DEFAULT '0',
   `spr_retro_1` text CHARACTER SET latin1,
   `spr_retro_2` text CHARACTER SET latin1,
+  `spr_configured` INT(1) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`spr_id`),
   KEY `FK_sprint_project` (`pro_id`),
   CONSTRAINT `FK_sprint_project` FOREIGN KEY (`pro_id`) REFERENCES `project` (`pro_id`) ON DELETE CASCADE
@@ -144,7 +146,7 @@ DROP TABLE IF EXISTS `sprint_snapshot`;
 CREATE TABLE `sprint_snapshot` (
   `sps_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `spr_id` int(10) unsigned NOT NULL,
-  `sps_snapshot_date` date NOT NULL,
+  `sps_snapshot_date` DATETIME NOT NULL,
   `sps_tasks_nr` int(10) unsigned NOT NULL,
   `sps_tasks_todo` int(10) unsigned NOT NULL,
   `sps_tasks_inprogress` int(10) unsigned NOT NULL,
@@ -264,7 +266,7 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `usr_login` varchar(40) CHARACTER SET latin1 NOT NULL,
   `usr_is_admin` int(1) unsigned DEFAULT NULL,
-  `usr_last_login_date` datetime DEFAULT NULL,
+  `usr_last_login_date` TIMESTAMP DEFAULT NULL,
   PRIMARY KEY (`usr_login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 /*!40101 SET character_set_client = @saved_cs_client */;
