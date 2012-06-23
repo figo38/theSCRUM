@@ -20,8 +20,9 @@
 			$velocity = $this->getVelocity();	
 			$style = ($this->displaynone) ? ' style="display:none"' : '';
 ?>
-<tr class="project" id="projectrow-<?php echo $id?>"<?php echo $style; ?>>
+<tr class="project<?php if ($this->isClosed()) { echo ' done';} ?>" id="projectrow-<?php echo $id?>"<?php echo $style; ?>>
 	<td><span id="project-name-<?php echo $id?>"><?php echo $name?></span></td>
+    <td><input type="checkbox" id="project-closed-<?php echo $id?>" <?php if ($this->isClosed()) { echo 'checked="checked"'; } ?>/></td>
 	<td><span id="project-unit-<?php echo $id?>"><?php echo $this->getUnit()?></span></td>		
 	<td><span id="project-velocity-<?php echo $id?>"><?php echo $velocity?></span></td>
 	<td><span id="project-goal-<?php echo $id?>"><?php echo nl2br($this->getGoal())?></span></td>

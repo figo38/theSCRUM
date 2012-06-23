@@ -3,8 +3,11 @@
 	include_once '_classes/classloader.php';
 
 	if (!defined('THESCRUM_VERSION')) {
-		define('THESCRUM_VERSION', '0.70');
+		define('THESCRUM_VERSION', '0.75');
 	}
+
+	// In case of issue, switch back to '1.6.1'
+	define('PROTOTYPEJS_VERSION', '1.7');
 
 	define('DISPLAY_DATE_FORMAT', 'M d, Y');
 	define('DISPLAY_DATETIME_FORMAT', 'M d, Y g:i');

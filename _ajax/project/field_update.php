@@ -4,6 +4,9 @@
 		case 'name':
 			$success = $P->updateName($new_content);
 			break;	
+		case 'closed':
+			$success = $P->updateClosed($new_content);
+			break;
 		case 'velocity':
 			$success = $P->updateVelocity($new_content);
 			break;

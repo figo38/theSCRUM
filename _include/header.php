@@ -8,7 +8,12 @@
 var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 -->
 </script>
+<?php if (strcmp(PROTOTYPEJS_VERSION, '1.6.1') == 0) { ?>
 <script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/protoaculous.1.8.3.min.js"></script>
+<?php } else if (strcmp(PROTOTYPEJS_VERSION, '1.7') == 0) { // Non minified versions :( ?>
+<script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/prototype-1.7.js"></script>
+<script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/scriptaculous-1.9.0/scriptaculous.js"></script>
+<?php } ?>
 <script type="text/javascript" src="<?php echo PATH_TO_PROTOTIP?>js/prototip/prototip.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_PROTOTIP?>js/prototip/styles.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_LIGHTVIEW?>js/lightview.js"></script>
@@ -37,9 +42,9 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 		<li><a class="one" href="<?php echo PATH_TO_ROOT?>roadmap">Roadmap</a>
 		<li><a class="one" href="<?php echo PATH_TO_ROOT?>project-dashboard">Projects</a>
 			<ul class="under">
-<?php if ($projects) { foreach ($projects as $key => $project) { ?>
+<?php if ($projects) { foreach ($projects as $key => $project) { if (!$project['closed']) {?>
 				<li><a href="<?php echo PATH_TO_ROOT.'project/'.string2url($project['name'])?>"><?php echo $project['name']?></a></li>
-<?php }} else { ?>
+<?php }}} else { ?>
 				<li><span>No project yet</span></li>
 <?php } ?>
 			</ul>

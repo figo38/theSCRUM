@@ -19,7 +19,11 @@ var ProjectMngt = Class.create({
 	},
 	// Enable inline editing of project
 	enableInteraction: function(projectId) {
-		new PBInPlaceEditor('project-name-' + projectId, {});
+		new PBInPlaceEditor('project-name-' + projectId, {});				
+		new PBInPlaceCheckbox('project-closed-' + projectId, function(fieldname) {
+			$('projectrow-' + projectId).toggleClassName('done');
+			
+		});
 		new PBInPlaceSelect('project-unit-' + projectId, 'projectUnitList', {});		
 		new PBInPlaceEditor('project-velocity-' + projectId, {});
 		new PBInPlaceEditor('project-goal-' + projectId, { rows:3 });	

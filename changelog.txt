@@ -1,0 +1,15 @@
+0.75
+* Ability to close projects via the Project dashboard. Closed projects doesn't appear in the dropdown menu anymore.
+
+_ajax/project/project/field_update.php
+
+_classes/objects/class_project.php
+_classes/objectsdisplay/class_projectdisplay.php
+
+_include/js/project.js
+_include/prototype-1.7.js (+)
+_include/scriptaculous-1.9.0/ (+)
+_include/header.php
+
+index.php
+manage_projects.php

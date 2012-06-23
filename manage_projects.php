@@ -17,6 +17,7 @@
 <thead>
 <tr>
 	<th>Project name</th>
+    <th>Close the project</th>
 	<th><abbr id="project_unit">Unit</abbr></th>
 	<th>Velocity</th>
 	<th>Goal</th>

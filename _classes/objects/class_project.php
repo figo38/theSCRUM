@@ -5,8 +5,8 @@
 
 		protected $sqlTableName = 'project';
 		protected $sqlIdField = 'pro_id';
-		protected $readSqlStatement = 'SELECT pro_id id, pro_name name, pro_velocity velocity, pro_goal goal, pro_has_sprints hassprints, pro_unit unit, pro_generation_hour generation_hour FROM project WHERE pro_id=?';
-		public static $realSqlSelectStatement = 'SELECT pro_id id, pro_name name, pro_velocity velocity, pro_goal goal, pro_has_sprints hassprints, pro_unit unit, pro_generation_hour generation_hour FROM project ';
+		protected $readSqlStatement = 'SELECT pro_id id, pro_name name, pro_velocity velocity, pro_goal goal, pro_has_sprints hassprints, pro_unit unit, pro_generation_hour generation_hour, pro_closed closed FROM project WHERE pro_id=?';
+		public static $realSqlSelectStatement = 'SELECT pro_id id, pro_name name, pro_velocity velocity, pro_goal goal, pro_has_sprints hassprints, pro_unit unit, pro_generation_hour generation_hour, pro_closed closed FROM project ';
 		public static $getStoriesListSql = 'SELECT s.sto_id id, s.pro_id projectid, s.sto_story story, s.sto_acceptance acceptance, s.sto_percentage percentage, s.sto_type type, p.pro_name projectname, IFNULL(b.sto_title, b.sto_story) epictitle, s.epi_id epicid, s.sto_url url FROM story s LEFT OUTER JOIN story b ON s.epi_id=b.sto_id JOIN project p ON s.pro_id=p.pro_id ';
 
 		public function getName() { return $this->getField('name');}
@@ -15,8 +15,8 @@
  		public function hasSprints() { return $this->getField('hassprints');; }
 		public function getUnit() { return $this->getField('unit');}	
 		public function getGenerationHour() { return $this->getField('generation_hour');}
-		
-
+		public function isClosed() { return $this->getField('closed'); }
+	
 		public function getDisplayUnit() { 
 			if ($this->getField('unit') == 'H') {
 				return 'Hours';
@@ -31,6 +31,7 @@
 		public function updateHasSprints($value) { return $this->updateIntField('pro_has_sprints', $value);}
 		public function updateUnit($value) { return $this->updateStringField('pro_unit', $value);}
 		public function updateGenerationHour($value) { return $this->updateStringField('pro_generation_hour', $value);}
+		public function updateClosed($value) { return $this->updateIntField('pro_closed', $value);}
 
 		/**
 		  *
@@ -253,8 +254,11 @@
 			return $this->getAllSprints($sortyby, true);
 		}
 
-		// @return a list of all projects sorted by project name	
+		// @return a list of all projects (including closed project) sorted by project name	
 		public static function getAllProjects() { return Helpers::execute(Project::$realSqlSelectStatement . 'ORDER BY pro_name ASC');}
+
+		// @return a list of all open projects (including closed project) sorted by project name	
+		public static function getAllOpenProjects() { return Helpers::execute(Project::$realSqlSelectStatement . ' WHERE pro_closed = 0 ORDER BY pro_name ASC');}
 		
 		public static function getLatestSprints() {
 			return Helpers::execute('SELECT p.pro_id, pro_name projectname, spr_nb sprintnb, spr_goal sprintgoal, UNIX_TIMESTAMP( spr_start_date) startdate, UNIX_TIMESTAMP(spr_end_date) enddate FROM project p, sprint s WHERE p.pro_id = s.pro_id AND spr_start_date <= NOW() AND spr_end_date >= NOW() ORDER BY pro_name');
