@@ -1,0 +1,15 @@
+RewriteEngine on
+RewriteBase /%%your-directory%%/
+RewriteRule ^([a-z0-9_]*).php index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*) index.php?uri=$1
+
+AuthType Basic
+AuthName "theSCRUM - Open source solution for agile teams"
+# Examples of "%%full_path_to%%": 
+# /opt/htdocs/thescrum/.htpasswd
+# C:/htdocs/thescrum/.htpasswd
+AuthUserFile /%%full_path_to%%/.htpasswd
+Require valid-user
+

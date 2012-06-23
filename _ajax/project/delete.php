@@ -1,0 +1,1 @@
+<p>This will <strong>permanently delete the project</strong>, including all stories, sprints, tasks... This cannot be undone.</p>

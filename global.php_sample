@@ -1,0 +1,15 @@
+<?php
+	define('PRODUCTBACKLOG_DB_HOST', '%%your_db_host%%');
+	define('PRODUCTBACKLOG_DB_NAME', '%%your_db_name%%');
+	define('PRODUCTBACKLOG_DB_USER', '%%your_db_user%%');
+	define('PRODUCTBACKLOG_DB_PASS', '%%your_db_password%%');
+	
+	define('PATH_TO_ROOT', '/%%your-directory%%/');
+
+	define('PATH_TO_LIGHTVIEW', PATH_TO_ROOT . '__lightview/');
+	define('PATH_TO_PROTOTIP', PATH_TO_ROOT . '__prototip/');
+	
+	// DO NOT MODIFY BELOW THIS LINE :)
+	define('DATE_FORMAT', '%Y-%m-%d');
+	define('THESCRUM_VERSION', '0.5');
+?>

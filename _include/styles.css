@@ -1,0 +1,372 @@
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- BASIC HTML -----------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+body {
+	background-color:#fff; color: #000; font-size: 12px; padding:0; margin:0; background: url('../images/bg.png') repeat-x;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif;
+}
+
+h1 { color: #333; font-size: 20px; font-weight: normal; margin: 0; margin-bottom: 10px; }
+h2 { color: #fff; font-size: 18px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; }
+
+.lv_Title { color: #333; font-size: 16px; font-weight: normal !important; margin: 0; margin-bottom: 10px; margin-top:10px; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif;}
+
+table { border: 1px solid #ccc; border-collapse: collapse; width:100%;}
+caption { background-color:#666; color:#FFF; border:1px solid #666; font-weight:bold; padding:5px; }
+thead th { border: 1px solid #ccc; padding: 5px; background-color: #fff; color:#999; font-weight:normal; background: url('../images/bg.png') repeat-x;}
+td { border: 1px solid #ccc; padding: 5px; font-weight:normal;}
+.done { background-color: #eee; color:#666; }
+
+img { border:0;}
+
+a { color: #333; text-decoration:none; }
+a:hover{ color: #000;}
+
+p.field { position:relative; }
+ul.field { padding:0; margin:0; }
+ul.field li { display: block; }
+ul.field li label { display: inline; }
+
+/* Form controls */
+button { 
+	background-color:#E4E4E4; color:#333; border:1px solid #333; padding:4px; background-image: url('../images/btng.gif'); 
+	text-transform:uppercase; color:#666;
+	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;
+	text-decoration:none; cursor:pointer; border-top-color:#ccc;border-left-color:#ccc; font-size: 12px; margin-top: 5px; margin-bottom: 5px;	
+}
+button.delete { 
+	background-color:#f00; background-image:none; color:#fff; font-weight:bold;
+	border:1px solid #900; border-top-color:#c00;border-left-color:#c00;
+}
+button.action {
+	background-color:#0c3; background-image:none; color:#fff; font-weight:bold;
+	border:1px solid #093; border-top-color:#3c3;border-left-color:#3c3;
+}
+
+p { margin:0; margin-top:5px;}
+
+textarea, input[type=text] { border: 1px solid #61778C; background-color:#f0f0ff; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif; font-size: 12px; background-color:#fff;}
+textarea { width:90%; }
+label { margin:0; padding:0; display: block; font-size: 12px;}
+fieldset { border: 1px solid #ccc; font-size: 12px; margin-top:5px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
+
+/* In-place editor */
+form.inplaceeditor-form textarea { display:inline; float:left;}
+form.inplaceeditor-form input[type="text"] { display:inline; float:left;}
+form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; height:16px; border:0; display:inline; margin-left:3px !important;}
+.editor_ok_button { background-image: url('../images/icons/tick.png') !important; }
+.editor_cancel_button { background-image: url('../images/icons/cancel.png') !important; }
+
+.page { padding:10px; }
+
+/* Helpers */
+.clear {clear:both;}
+.pointer { cursor:pointer;}
+.hidden { display:none}
+.red { color:#f00;}
+.inactive { color:#999;}
+
+/* AJAX saving message */
+.savingText { position:absolute; top:6px; right:10px; background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; display:none;}
+
+/* Warning message */
+.warningMsg { background-color:#fee;color:#C00; border:1px solid #C00; margin-bottom:15px; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;}
+.warningMsg .inner { padding:8px;padding-left: 28px; background: url('../images/icons/exclamation.png') no-repeat; background-position: 8px 8px; font-size:14px}
+.warningMsg .inner a { text-decoration:underline; color:#C00; }
+
+/* Info message */
+.infoMsg { background-color:#e8f2fe;color:#3a5493; border:1px solid #3a5493; margin-bottom:15px; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px;}
+.infoMsg .inner { padding:8px;padding-left: 28px; background: url('../images/icons/information.png') no-repeat; background-position: 8px 8px; font-size:14px}
+.infoMsg .inner a { text-decoration:underline; color:#3a5493; }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- HOMEPAGE -------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#home { padding:0; background-color:#666; position:relative; height:192px; }
+#home #left { position:absolute;top:0;left:0; width:240px; height:192px; background: url('../images/scrum.jpg');}
+#home #left #license { visibility:hidden; position:absolute;width:240px; height:192px; color:#fff;}
+#home #left #license a { color:#fff;}
+#home #left #license div { position:absolute; right:4px; bottom:4px; font-size:10px;}
+#home #left:hover #license { visibility:visible;}
+#home #right { position:absolute;top:0; padding:10px; left: 245px; color:#ccc;}
+#home #right h3 { color:#fff; padding-left:10px;}
+#home #right ul { list-style: none; background-color:#666;padding-right:30px; padding-bottom:10px;}
+#home #right a { color:#ccc;}
+#home #right a.project { font-weight:bold;}
+#home #right a:hover { color:#fff;}
+
+#monthlyreleasereport { 
+	margin-left:20px; margin-right:20px;-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; 
+	border: 1px solid #ccc; background-color:#f4f4f4; padding:5px; margin-top:10px; color:#666;
+}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- FOOTER ---------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#footer { border-top: 1px solid #eee; padding-top:2px; margin:10px; color:#ccc; position:relative; height:20px;}
+#footer .logo { position:absolute; left:-6px;}
+#footer .text { position:absolute; left:95px; top:3px;}
+#footer .text p { margin-top:0; padding-top:0}
+#footer .text a { color:#666;}
+#footer .text a:hover { text-decoration:underline;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- MENUS ----------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+/* Top menu */
+#navcontainer { width: 100%; height: 28px; color: #fff; }
+#nav, #nav ul { float: left; list-style: none; line-height: 18px; color: #000; background-color: transparent; padding: 0; margin: 0; }
+#nav a { display: block; padding: 5px 15px; text-decoration: none; color:#999; text-align: left; font-size: 13px;}
+#nav li { float: left; padding: 0;}
+#nav span { display: block; padding: 5px 10px; text-decoration: none; color:#999; font-style: italic;}
+
+/* The background and color of the main nav link while looking at the dropdown */
+#nav li:hover a.one { color: #333; background-color: #ddd;}
+
+/* The dropdown links lists */
+#nav li ul { position: absolute; left: -999em; height: auto; width: 300px; font-weight: normal; border: 1px solid #ddd; background-color: #eee; margin: 0; z-index:2000;}
+#nav li li { padding: 0; width: 280px; }
+#nav li ul a { padding: 5px 10px; width: 280px; * html width: 100px; font-size: 12px;}
+#nav li:hover ul ul { left: -999em; }
+#nav li:hover ul { left: auto;}
+
+/* The dropdown links list colors */
+#nav li ul.under a { color: #333;}
+#nav li ul.under a:hover { background: #999; color: #fff;}
+
+#nav li.about { right:10px; position:absolute;}
+
+#nav .sep { border-top:1px solid #ddd; width:300px }
+
+/* Sub Menu */
+.submenu { padding:0; margin-left:0; margin-top:0;}
+.submenu li { color: #333; font-size: 20px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; display:inline; list-style: none; padding:10px; padding-left:15px; padding-right:15px; }
+.submenu li.title { background-color:#666; color:#fff; }
+.submenu li.secondary { font-size: 16px;}
+.submenu li a { color: #ccc; padding:10px;}
+.submenu li a:hover { background-color:#eee; color:#ccc;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- FILTERING OPTIONS ----------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#filteringoptions { border:1px solid #eee; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; background-color:#fafafa; }
+#filteringoptions .filters { padding:5px;}
+#filteringoptions h2 { font-size: 14px; margin:0; padding-bottom: 2px; margin-bottom: 2px; color: #ccc; }
+#filteringoptions label { display: inline; }
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- TOOLTIP -------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+.prototip .backlogtip {	min-width: 250px; color: #808080; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif;}
+.prototip .backlogtip .toolbar { background: #ddd; border-bottom: 1px solid #c7c7c7; font-weight: bold; font-size: 13px;}
+.prototip .backlogtip .title { padding: 5px; font-size: 13px; }
+.prototip .backlogtip .content { padding: 5px; background: #f4f4f4; font-size: 13px;}
+.prototip .backlogtip li { list-style-type: none; padding: 0; margin: 0;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- IN-PLACE EDITOR ------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+.inplaceeditor-saving { background: url('../images/ajax-loader.gif') bottom right no-repeat; }
+form.inplaceeditor-form input[type="text"] { display: block;}
+form.inplaceeditor-form textarea { display: block; font-size: 13px;}
+form.inplaceeditor-form input[type="submit"] { margin-left:0; }
+.inplaceeditor-empty { color: #666;}
+.ehover { background-color:#ff9; }
+.reset { top:0; right:0; position: absolute; font-size: 12px;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- BUTTON WITH ICONS ----------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#addnewobject span { padding: 2px; padding-left: 20px; background: url('../images/icons/add.png') no-repeat;}
+.btngSaveTeam { padding: 2px; padding-left: 20px; background: url('../images/icons/user_add.png') no-repeat;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- PRODUCT BACKLOG VIEW -------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#actionbar { position:relative; }
+#actionbar .right { position:absolute; right:0; top:10px; font-weight:bold; }
+
+td.icons { white-space: nowrap;}
+td.epic { background-color:#C7E09E; }
+tr.substory { border-right:3px solid #C7E09E;border-left:3px solid #C7E09E; background-color:#DDFFAC; }
+tr.firstsubstory { border-top:3px solid #C7E09E;}
+tr.lastsubstory { border-bottom:3px solid #C7E09E;}
+tr.blankline { margin:0; font-size:4px; padding:0;}
+tr.blankline td { padding:0;}
+td.sid { background:#f4f4f4; !important; }
+.story { position:relative; padding-right:14px;}
+.storycomment { position:absolute;top:0;right:0; }
+
+.percent10 { background-color:#c8ffac; }
+.percent20 { background-color:#aeffac; }
+.percent30 { background-color:#acffc4; }
+.percent40 { background-color:#acffd9; }
+.percent50 { background-color:#acffef; }
+.percent60 { background-color:#acfffd; }
+.percent70 { background-color:#acf9ff; }
+.percent80 { background-color:#acebff; }
+.percent90 { background-color:#acdfff; }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- STORY MAP VIEW -------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+.storymap { }
+.storymapfirstcol { width:50px; float:left; background-color:#333; height:160px; color:#fff; font-weight: bold; text-align:center; }
+.storymapcolumn { width:220px; float:left; }
+.storypostit { width:198px; height:150px; padding:5px; margin-bottom:10px; position:relative;}
+.storymapepic { background-color:#C7E09E; border: 1px solid #C7E09E;}
+.storymapstory { background-color:#DDFFAC; border: 1px solid #C7E09E; }
+.storystandalonestory { background-color:#fff; border: 1px solid #ccc;}
+.storymapblank { width: 200px; height: 150px; padding:5px; margin-bottom:10px;}
+.storytimeline { background-color:#333; color: #fff; font-size: 18px; margin-top:10px; margin-bottom:10px; padding:5px;}
+.storymaprelease { position:absolute;bottom:5px; right:5px;}
+.storypostitdone { background-color: #eee !important; color:#999 !important; border: 1px solid #999; }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- ROADMAP VIEW -------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#roadmap { position: relative; float: left;background-color: #DDD;width: 1526px;}
+#roadmap h3 { background-color:#ccc; color: #fff; font-size: 18px; padding:5px; margin:0; font-weight: normal; text-align: center;}
+#roadmap .sprints { float: left; border-right: 1px solid #ddd; background-color: #EEE; padding: 8px 0; text-align: center;}
+#roadmap #bar-sprints { margin-bottom: 4px; }
+#roadmap #bars { position: absolute; top: 80px; left: 0; z-index: 10; }
+
+#roadmap .line { margin:0; margin-bottom: 8px; background-color: #ccc; clear: both; position: relative; height:50px; text-align: center; color: #FFF; font-size: 12px;}
+#roadmap .line .project { float: left; width: 150px; padding: 15px 0 0; margin-right: 0px; background-color: #666; font-weight: bold; height:35px;}
+#roadmap .line .project a { color:#fff;}
+#roadmap .line .project a:hover { text-decoration:underline ;}
+#roadmap .line .epic-0 { float: left; padding: 0; display: block; background-color: #DDFFAC; overflow: hidden; height:50px; color:#000; }
+#roadmap .line .epic-1 { float: left; padding: 0; display: block; background-color: #C7E09E; overflow: hidden; height:50px; color:#000; }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- STORY NOTES ----------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#story_notes_panel { position:relative; margin-top:10px; margin-bottom:25px; width:790px;}
+#story_notes { margin-top: 10px; padding:5px; width:790px;}
+#story_notes:hover { background-color:#ff9;}
+#story_notes_panel_ok_msg { position:absolute; top: 25px; right:0; display:none; background-color:#ff9; color:#000; padding-left:5px; padding-right:5px;}
+#story_notes_panel_save_msg { position:absolute; background-color:#fff; color: #333; top: 27px; left:4px; padding:2px; display:none;}
+
+.editable:hover { background-color:#ff9;}
+
+.row { padding:5px; border-bottom: 1px solid #ccc;}
+
+p.response { border: 1px solid #ccc; padding:5px; background-color:#f4f4f4;}
+
+.icon { cursor:pointer;}
+
+.releaseinfo { border:1px solid #eee; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; padding:8px; margin-bottom: 10px; background-color:#eee;}
+.releaseinfo p { margin:0;}
+.status-deployed {}
+.status-planned { color:#f00 !important;}
+
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- PEOPLE MANAGEMENT ----------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#usermanagement { position:relative; }
+#usermanagement .column { width:200px; float:left; }
+#usermanagement .section { float:left; width:31%; margin-right:2%; padding-bottom:5px; background: url('../images/bg.png') repeat-x; border: 1px solid #ccc; }
+#usermanagement .last { margin-right:0;}
+#usermanagement .innerSection { padding: 5px;}
+#usermanagement .innerSection h3 { margin:0;margin-bottom: 5px; color:#999; font-weight:normal;}
+#usermanagement .lineitem { margin: 2px; cursor: move; float: left; width:150px; background-color:#E4E4E4; color:#333; border:1px solid #CCC; height: 25px; background-image: url('../images/btng.gif');}
+#usermanagement .innerlineitem { padding: 2px; padding-left: 20px; height: 25px; background: url('../images/icons/user.png') no-repeat; background-position: 2px 2px; }
+#allusers { background: url('../images/bg.png') repeat-x; border: 1px solid #ccc; width:97% }
+#allteam {margin-bottom: 20px; }
+
+td.teammember { background-image: url('../images/btng.gif'); width:200px;}
+td.teammember .inner { padding:2px;padding-left: 24px; background: url('../images/icons/user.png') no-repeat; background-position: 2px 2px; }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- SPRINT PLANNING ------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#formgoalbox { position:relative;}
+#goals { border:1px solid #666; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; background-color:#666; color:#fff; padding: 5px; font-size:14px; margin-left:20px; position: absolute; top:0; right:0; width:50%}
+
+tr.taskrow { background-color:#fff597; border-left: 3px solid #C7E09E; border-right: 3px solid #C7E09E;}
+td.tid { background-color:#fff; border: none !important; }
+tr.done { background-color: #eee; color:#666; }
+
+#allocationtable { position:fixed; bottom:5px;right:5px; cursor:move; width:400px; z-index:1900; }
+#allocationtable table { background:#fff; }
+#allocationtable tfoot tr { border-top:3px solid #ccc;}
+#allocationtable tfoot td { background-color:#ddd;}
+#teamMemberList { display:none;}
+
+#allocationtableshowhide { color:#fff; padding:4px; cursor:pointer; font-weight:normal;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- SPRINT BACKLOG -------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+.taskpostit { position: relative; float:left; border:1px solid #ffd800; margin-right:5px; margin-bottom:5px; background-color:#fff597;}
+.taskpostit .draggabletitle { cursor:move; background-color:#fff597; z-index:600; position:absolute; left:2px; top:2px; overflow:hidden;}
+.taskpostit .inner { position:absolute; bottom:2px; left:2px; z-index:500; }
+.taskpostit .edit { position: absolute; width: 16px; height: 16px; bottom:1px; right: 1px;}
+
+.owntask { border:1px solid #8dc6d4; background-color:#d0ebf2;}
+.taskpostit .draggableowntitle { border-bottom:1px solid #8dc6d4; background-color:#d0ebf2; }
+td.taskplaceholder { vertical-align:top; }
+div.taskplaceholder { position:relative; min-height:150px; min-width:150px;}
+
+.taskplaceholdermedium { min-height:90px !important; min-width:90px !important;}
+.taskplaceholdersmall { min-height:60px !important; min-width:60px !important;}
+
+
+.taskpostit { width:130px; height:130px;}
+.taskpostit .draggabletitle { width:126px; height:90px;}
+.taskpostit .inner { width:105px;}
+
+.taskpostitmedium, .taskpostitmedium div.taskplaceholder { width:90px; height:90px;}
+.taskpostitmedium .draggabletitle { width:86px; height:60px;font-size:10px;}
+.taskpostitmedium .inner { width:70px;font-size:10px;}
+
+.taskpostitsmall, .taskpostitsmall div.taskplaceholder { width:60px; height:60px;}
+.taskpostitsmall .draggabletitle { width:58px; height:42px;font-size:8px;}
+.taskpostitsmall .inner { width:40px;font-size:8px;}
+
+.storypostitmedium { width:118px; height:90px;font-size:10px; padding:3px;}
+.storypostitsmall { width:80px; height:60px;font-size:8px; padding:2px;}
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- BURNDOWN CHART -------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+#sprintburndown { width:960px;height:400px;}
+#sprintburndown td { border:0;}
+#sprintburndowndata { margin-top:20px;}
+
+
+
+
+
+
+
+#sprintUnitList, #projectUnitList { display:none;}
+
+
+
+.releaseTag { background-color:#ccc; padding-left:4px; padding-right:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; border: 1px solid #666; cursor:pointer;}
+.releaseTag:hover { color:#999; border: 1px solid #999}
+
+
+
+
+/* the default style */
+.prototip .postit { width: 200px; color: #808080; background-color: #999;}
+.prototip .postit .toolbar { background: #999; font-weight: bold; font-size: 12px; color:#fff;}
+.prototip .postit .title { padding: 5px; }
+.prototip .postit .content { padding: 5px; background: #999; font-size: 12px; color:#fff;}
