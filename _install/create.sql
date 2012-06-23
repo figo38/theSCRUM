@@ -16,6 +16,24 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `sprint_days`
+--
+
+DROP TABLE IF EXISTS `sprint_days`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sprint_days` (
+  `spr_id` INTEGER UNSIGNED NOT NULL,
+  `spd_date` CHAR(8) NOT NULL,
+  PRIMARY KEY (`spr_id`, `spd_date`),
+  CONSTRAINT `FK_sprint_days_1` FOREIGN KEY `FK_sprint_days_1` (`spr_id`)
+    REFERENCES `sprint` (`spr_id`)
+    ON DELETE CASCADE
+    ON UPDATE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `featuregroup`
 --
 

@@ -2,8 +2,6 @@
   * Class to manage interactions on stories (inline editing...)
   */
 var SprintPlanning = Class.create({
-	initialize: function() {
-	},
 	initReadMode: function() {
 		new SprintPlanning().manageAllocationPanel();		
 	},
@@ -29,6 +27,27 @@ var SprintPlanning = Class.create({
 				});
 			});
 		}
+		
+		var SP = new SprintPlanning();
+		$$('td.addtask img').each(function(elt){
+			storyId = elt.id.substring(9);
+			SP.enableInteractionOnStory(storyId);								   
+		});
+		
+		// TODO
+		$$('tr.taskrow').each(function(elt){
+			taskId = elt.id.substring(8);
+			
+			storyId = 0;
+			elt.classNames().each(function(classname) {
+				if (classname.startsWith('task') && classname.length > 4) {
+					storyId = classname.substr(4);
+				}												
+			});			
+			
+			//alert(storyId);
+			//SP.enableInteraction();
+		});
 	},
 
 	manageAllocationPanel: function() {
@@ -141,14 +160,14 @@ var SprintPlanning = Class.create({
 	},
 	
 	enableInteractionOnStory: function(storyId) {
-		new ProductBacklogTip('task-add-' + storyId, "Add a task", {
-			title: "Add a new task",
+		
+		new ProductBacklogTip('task-add-' + storyId, "Add a new task", {
 			stem: 'rightMiddle',
 			hook: { target: 'leftMiddle', tip: 'rightMiddle' },
 			ajax: {
 				url: PATH_TO_ROOT + '_ajax/task/add_task.php?',
 				options: { 
-					method: 'get',
+					method: 'post',
 					parameters: {
 						id: storyId,
 						sprintId: $F('sprintBacklog_sprintId')
@@ -176,7 +195,7 @@ var SprintPlanning = Class.create({
 		// Ajax call to register the new task in the DB.
 		var sprintId = $F('sprintBacklog_sprintId');		
 		new Ajax.Updater('storyrow-' + storyId, PATH_TO_ROOT + '_ajax/task/add_task_db.php', {
-			method:'get',
+			method:'post',
 			parameters: {
 				sprintid: $F('sprintBacklog_sprintId'),
 				task: $F('new_task_' + storyId), 

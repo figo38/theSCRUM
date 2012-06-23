@@ -1,15 +1,19 @@
 <?php
 	/**
-	  * Story "Edit details" panel
+	  * Display the "Edit details" panel
+	  * @param $id StoryID
 	  */
+
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 	
-	$storyId = $_REQUEST['id'];
+	$storyId = getRequestIntParameter('id');
+	
 	$S = new Story($storyId, true);
-	$tab = $S->getSelectedFeatureGroups();
+	$tab = $S->getSelectedTags();
 
 	$st = $S->getStoryType();
+	
 	$associatedReleaseId = $S->getReleaseId();
 	$disabled = ($S->isEpic()) ? ' disabled="true" ' : '';
 	
@@ -44,25 +48,25 @@
 
 <div>
 	<div class="left" style="margin-right:75px">
-		<label for="new_story_type1"><input type="radio" name="new_story_type" value="1" id="new_story_type1" <?php echo $disabled; if ($st == 1) echo ' checked="checked" '; ?>>Story</label>
+		<label for="new_story_type1"><input type="radio" name="new_story_type" value="1" id="new_story_type1" <?php echo $disabled; if ($st == Story::STORY) echo ' checked="checked" '; ?>>Story</label>
 <?php if (!$S->isSubStory()) { // We cannot change a sub-story to an epic ?>
-		<label for="new_story_type2"><input type="radio" name="new_story_type" value="2" id="new_story_type2" <?php echo $disabled; if ($st == 2) echo ' checked="checked" '; ?>>Epic</label>
+		<label for="new_story_type2"><input type="radio" name="new_story_type" value="2" id="new_story_type2" <?php echo $disabled; if ($st == Story::EPIC) echo ' checked="checked" '; ?>>Epic</label>
 <?php } ?>
-		<label for="new_story_type3"><input type="radio" name="new_story_type" value="3" id="new_story_type3" <?php echo $disabled; if ($st == 3) echo ' checked="checked" '; ?>>Spike</label>
+		<label for="new_story_type3"><input type="radio" name="new_story_type" value="3" id="new_story_type3" <?php echo $disabled; if ($st == Story::SPIKE) echo ' checked="checked" '; ?>>Spike</label>
 	</div>
 <?php if (!$S->isSubStory()) { // No bug / impediment inside epics ?>    
     <div class="left">
-		<label for="new_story_type4"><input type="radio" name="new_story_type" value="4" id="new_story_type4" <?php echo $disabled; if ($st == 4) echo ' checked="checked" '; ?>>Bug</label>
-		<label for="new_story_type5"><input type="radio" name="new_story_type" value="5" id="new_story_type5" <?php echo $disabled; if ($st == 5) echo ' checked="checked" '; ?>>Impediment</label>
+		<label for="new_story_type4"><input type="radio" name="new_story_type" value="4" id="new_story_type4" <?php echo $disabled; if ($st == Story::BUG) echo ' checked="checked" '; ?>>Bug</label>
+		<label for="new_story_type5"><input type="radio" name="new_story_type" value="5" id="new_story_type5" <?php echo $disabled; if ($st == Story::IMPEDIMENT) echo ' checked="checked" '; ?>>Impediment</label>
 	</div>
 <?php } ?>
 </div>
 </fieldset>
 
-<fieldset<?php if ($st != 4) {?> style="display:none"<?php } ?> id="bug_url_field_<?php echo $storyId?>">
+<fieldset<?php if ($st != Story::BUG) {?> style="display:none"<?php } ?> id="bug_url_field_<?php echo $storyId?>">
 <legend>Bug details</legend>
 <p class="field">
-	<a href="#" class="reset" id="bug_url_field_emptyit_<?php echo $storyId?>">Reset</a>
+	<span class="reset" id="bug_url_field_emptyit_<?php echo $storyId?>">Reset</span>
 	<label for="bug_url_field_text_<?php echo $storyId?>">URL:</label>
 	<input type="text" id="bug_url_field_text_<?php echo $storyId?>" value="<?php echo $S->getUrl()?>" style="width:100%"/>
 </p>

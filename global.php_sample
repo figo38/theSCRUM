@@ -8,8 +8,4 @@
 
 	define('PATH_TO_LIGHTVIEW', PATH_TO_ROOT . '__lightview/');
 	define('PATH_TO_PROTOTIP', PATH_TO_ROOT . '__prototip/');
-	
-	// DO NOT MODIFY BELOW THIS LINE :)
-	define('DATE_FORMAT', '%Y-%m-%d');
-	define('THESCRUM_VERSION', '0.55');
 ?>

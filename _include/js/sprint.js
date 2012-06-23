@@ -1,6 +1,5 @@
 // JavaScript Document
 var SprintMngt = Class.create({
-	initialize: function() { },
 	init: function(projectId) {
 		// Initialize the "Add Project" button
 		$('addnewobject').observe('click', function(event) {
@@ -12,6 +11,10 @@ var SprintMngt = Class.create({
 			var sprintId = s.id.substr(10);
 			new SprintMngt().enableInteraction(sprintId);
 		});
+		
+		new ProductBacklogHelperTip('nr_days', 'The number of working days in the sprint', 'You should exclude all week-ends, bank holidays <br/>or any event that could occur in your company.');
+
+		new ProductBacklogHelperTip('nr_units_per_day', 'The number of working hours or story points per day', 'If you remove meetings that occur during a day, the coffee time, any disturbance...,<br/>chances are each of your team member is only working 5 or 6 hours a day. <br/>Change this setting to reflect the habits in your company');		
 	},	
 	// Enable inline editing of each sprint
 	enableInteraction: function(sprintId) {
@@ -25,9 +28,7 @@ var SprintMngt = Class.create({
 
 		new PBInPlaceCheckbox('sprint-closed-' + sprintId, function(fieldname) { 
 			$('sprintrow-' + sprintId).toggleClassName('done');
-		});
-		new PBLightview('sprint-time-' + sprintId, 'Team allocation', PATH_TO_ROOT + 'teamallocation/' + sprintId);
-		
+		});		
 		new PBDeleteObject('sprint-delete-' + sprintId, "Delete the sprint", 'sprintrow-' + sprintId);				
 	},
 	addSprint: function(projectId) {

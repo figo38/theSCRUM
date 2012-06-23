@@ -50,7 +50,7 @@ button.action:hover { border:1px solid #093;}
 
 p { margin:0; margin-top:5px;}
 
-textarea, input[type=text] { border: 1px solid #61778C; background-color:#f0f0ff; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif; font-size: 12px; background-color:#fff;}
+textarea, input[type=text], input[type=password] { border: 1px solid #61778C; background-color:#f0f0ff; font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Arial, sans-serif; font-size: 12px; background-color:#fff;}
 textarea { width:90%; }
 label { margin:0; padding:0; display: block; font-size: 12px;}
 fieldset { border: 1px solid #ccc; font-size: 12px; margin-top:5px; -moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px;}
@@ -76,7 +76,7 @@ form.inplaceeditor-form input[type="submit"]  { background:none; width:16px; hei
 a.url { text-decoration:underline;}
 
 /* AJAX saving message */
-.savingText { position:absolute; top:6px; right:10px; background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; display:none;}
+.savingText { position:absolute; top:6px; right:10px; background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; display:none; font-size:14px;}
 .waitingText { background-color:#ff9; color:#000; padding-left:5px; padding-right:5px; }
 .errorText { background-color:#fee;color:#C00;}
 
@@ -90,28 +90,35 @@ a.url { text-decoration:underline;}
 .infoMsg .inner { padding:8px;padding-left: 28px; background: url('../images/icons/information.png') no-repeat; background-position: 8px 8px; font-size:14px}
 .infoMsg .inner a { text-decoration:underline; color:#3a5493; }
 
+abbr { cursor:pointer; border-bottom:1px dotted #00f;}
+.helpTitle { border-bottom:1px solid #fff; font-weight:bold; margin:0; padding:0; padding-bottom:3px; margin-bottom:3px;}
+
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- HOMEPAGE -------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
-#home { padding:0; background-color:#666; position:relative; height:192px; }
-#home #right { position:absolute;top:0;right:0; width:240px; height:192px; background: url('../images/scrum.jpg');}
-#home #right #license { visibility:hidden; position:absolute;width:240px; height:192px; color:#fff;}
-#home #right #license a { color:#fff;}
-#home #right #license div { position:absolute; right:4px; bottom:4px; font-size:10px;}
-#home #right:hover #license { visibility:visible;}
-#home #left { padding:5px; position:relative; float:left; }
-#home #middle { position:relative; float:left; color:#ccc; border-left:1px solid #999; margin-left:5px; margin-top:12px;}
-#home #middle h3 { color:#fff; padding-left:10px; margin:0;}
+#home { padding:0; background-color:#dbd7ba; position:relative; height:192px; }
+#home #left { width:364px; height:192px; background: url('../images/logo_thescrum.png'); float:left;}
+#home #left #license { visibility:hidden; position:absolute;width:240px; height:192px; color:#fff;}
+#home #left #license a { color:#fff;}
+#home #left #license div { position:absolute; right:4px; bottom:4px; font-size:10px;}
+#home #left:hover #license { visibility:visible;}
+#home #middle { position:relative; float:left; color:#000; margin-left:5px; margin-top:10px; height:168px;}
+#home #middle h3 { color:#000; padding-left:10px; margin:0;}
 #home #middle ul { list-style: none; padding-right:30px; padding-bottom:10px;}
-#home #middle a { color:#ccc;}
+#home #middle a { color:#000;}
+#home #middle a:hover { text-decoration:underline;}
 #home #middle a.project { font-weight:bold;}
-#home #middle a:hover { color:#fff;}
 
 #monthlyreleasereport { 
 	-moz-border-radius: 4px; -webkit-border-radius: 4px; border-radius: 4px; 
 	border: 1px solid #ccc; background-color:#f4f4f4; padding:5px; margin-top:10px; color:#666;
 }
+
+#loginForm { margin:20px; margin-top:40px; }
+#loginForm label { font-size:16px; display:inline-block; text-align:right; width:120px; }
+#loginForm input { font-size:16px; padding:4px; border:1px solid #333;}
+#loginForm button { font-size:14px; font-weight:bold; border:1px solid #fff; padding-left:20px; padding-right:20px;}
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- FOOTER ---------------------------------------------------*/
@@ -154,21 +161,33 @@ a.url { text-decoration:underline;}
 #nav .sep { border-top:1px solid #ddd; width:300px }
 
 /* Sub Menu */
-.submenu { padding:0; margin-left:0; margin-top:0;}
-.submenu li { color: #333; font-size: 20px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; display:inline; list-style: none; padding:10px; padding-left:15px; padding-right:15px; }
-.submenu li.title { background-color:#666; color:#fff; }
-.submenu li.secondary { font-size: 16px;}
-.submenu li a { color: #ccc; padding:10px;}
-.submenu li a:hover { background-color:#eee; color:#ccc;}
+.submenu { padding:0; margin-left:0; margin-top:0; margin-bottom: 14px;}
+.submenu li { color: #333; font-size: 20px; font-weight: normal; margin: 0; margin-bottom: 10px; margin-top:10px; display:inline; list-style: none; padding-top:10px; padding-bottom:10px; border:1px solid #fff; }
+.submenu li.title { background-color:#666; color:#fff; padding-left:10px; padding-right:10px; border:1px solid #666;}
+.submenu li a { color: #dbd7ba; padding:10px; border:1px solid #fff}
+.submenu li a:hover { border: 1px solid #dbd7ba; text-decoration:underline}
 
-/* ----------------------------------------------------------------------------------------------------*/
-/* ----------------------------------------- FILTERING OPTIONS ----------------------------------------*/
-/* ----------------------------------------------------------------------------------------------------*/
+.submenu li.selected { color:#333; background-color:#dbd7ba; border:1px solid #dbd7ba; padding-bottom:20px; margin-bottom:0;}
+.submenu li.selected a { color: #333; padding:10px; border:1px solid #dbd7ba}
+.submenu li.selected a:hover { border: 1px solid #dbd7ba; text-decoration:underline}
 
-#filteringoptions { border:1px solid #eee; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; background-color:#fafafa; }
-#filteringoptions .filters { padding:5px;}
-#filteringoptions h2 { font-size: 14px; margin:0; padding-bottom: 2px; margin-bottom: 2px; color: #ccc; }
-#filteringoptions label { display: inline; }
+/* Sub sub menu */
+.subsubmenu ul { list-style: none; margin:0; padding:0; padding-top:5px; padding-bottom:5px;}
+.subsubmenu li { display:inline; padding:5px; font-size:13px;}
+.subsubmenu li a { padding-left:5px; padding-right:5px}
+.subsubmenu li a:hover { text-decoration:underline;}
+.subsubmenu li.selected { background-color:#fff; font-weight:bold; }
+
+#subsubmenuheader { background-color:#dbd7ba; position:relative; padding-top:17px}
+#goals { background-color:#b8b59c; color:#fff; padding: 5px; font-size:14px; margin-left:20px; position: absolute; top:0; right:0; width:40%; min-height:33px; z-index:100}
+
+/* Assistant navigation bar */
+ol.assistant { border-bottom:1px solid #dbd7ba; margin-left:0; padding-left:0; padding-bottom:5px;}
+ol.assistant li { display:inline; list-style: none; margin-right:30px;}
+ol.assistant span.nb { padding:2px 6px 2px 6px; font-size:13px; color:#fff;background-color:#dbd7ba; font-weight:bold; -webkit-border-radius:10px; -moz-border-radius:10px;}
+ol.assistant .selected { font-weight:bold;}
+ol.assistant .selected span.nb { background-color:#ABA982}
+
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- TOOLTIP -------------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
@@ -188,7 +207,7 @@ form.inplaceeditor-form input[type="text"] { display: block;}
 form.inplaceeditor-form textarea { display: block; font-size: 13px;}
 form.inplaceeditor-form input[type="submit"] { margin-left:0; }
 .inplaceeditor-empty { color: #666;}
-.ehover { background-color:#ff9; }
+.ehover { background-color:#ff9; color:#000; }
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- BUTTON WITH ICONS ----------------------------------------*/
@@ -207,7 +226,6 @@ strong.labelbug { color:#060; font-size:10px;}
 strong.labelimpediment { color:#666; font-size:10px;}
 
 #actionbar { position:relative; }
-#actionbar .right { position:absolute; right:0; top:10px; font-weight:bold; }
 
 td.icons { white-space: nowrap;}
 td.epic { background-color:#C7E09E; }
@@ -235,6 +253,7 @@ td.sid { background:#f4f4f4; !important; }
 .percent80 { background-color:#acebff; }
 .percent90 { background-color:#acdfff; }
 
+.reset { color:#333; cursor:pointer;}
 .reset, #productBacklog_addStory .waitingText { top:0; right:0; position: absolute; font-size: 12px;}
 .editStory_tagList { height:95px; overflow:auto;}
 
@@ -306,6 +325,19 @@ p.response { border: 1px solid #ccc; padding:5px; background-color:#f4f4f4;}
 .status-deployed {}
 .status-planned { color:#f00 !important;}
 
+/* ----------------------------------------------------------------------------------------------------*/
+/* ----------------------------------------- SPRINT CONFIGURATION -------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------*/
+
+.big_calendar { position:relative; margin-top:5px;}
+.big_calendar .day { float:left; width:100px; height:100px; border:1px solid #ccc; margin: 0 5px 5px 0; padding:5px; color:#999; cursor:pointer}
+.big_calendar .day.weekend { background-color:#fafafa;}
+.big_calendar .day:hover { background-color:#ddd}
+.big_calendar .day.selected { background-color:#e8f2fe;}
+.big_calendar .day p { margin:0; color:#000;}
+
+#sprint-nbdays-allocated { font-weight:bold; color:#f00;}
+#sprint-nbdays-allocated.ok { color:#0f0;}
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* ----------------------------------------- PEOPLE MANAGEMENT ----------------------------------------*/
@@ -332,10 +364,7 @@ td.teammember .inner { padding:2px;padding-left: 24px; background: url('../image
 /* ----------------------------------------- SPRINT PLANNING ------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
-#formgoalbox { position:relative;}
-#goals { border:1px solid #666; -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; background-color:#666; color:#fff; padding: 5px; font-size:14px; margin-left:20px; position: absolute; top:0; right:0; width:50%}
-
-tr.taskrow { background-color:#fff597; border-left: 3px solid #C7E09E; border-right: 3px solid #C7E09E;}
+tr.taskrow { background-color:#fff597;}
 td.tid { background-color:#fff; border: none !important; }
 tr.done { background-color: #eee; color:#666; }
 
@@ -348,7 +377,7 @@ tr.done { background-color: #eee; color:#666; }
 #allocationtableshowhide { color:#fff; padding:4px; cursor:pointer; font-weight:normal;}
 
 /* ----------------------------------------------------------------------------------------------------*/
-/* ----------------------------------------- SPRINT BACKLOG -------------------------------------------*/
+/* ----------------------------------------- WHITEBOARD -----------------------------------------------*/
 /* ----------------------------------------------------------------------------------------------------*/
 
 .taskpostit { position: relative; float:left; border:1px solid #ffd800; margin-right:5px; margin-bottom:5px; background-color:#fff597;}
@@ -391,8 +420,8 @@ div.taskplaceholder { position:relative; min-height:150px; min-width:150px;}
 
 #statsContainer { position:relative; }
 #statsContainer .graph { float:left; margin-right:40px; margin-bottom:40px; }
-#statsContainer .graph > div { width:400px;height:200px;}
-#statsContainer .graph h4 { text-align:center;}
+#statsContainer .graph > div { width:500px;height:250px;}
+#statsContainer .graph h4 { text-align:center; font-size:13px;}
 
 
 
@@ -411,3 +440,10 @@ div.taskplaceholder { position:relative; min-height:150px; min-width:150px;}
 .prototip .postit .toolbar { background: #999; font-weight: bold; font-size: 12px; color:#fff;}
 .prototip .postit .title { padding: 5px; }
 .prototip .postit .content { padding: 5px; background: #999; font-size: 12px; color:#fff;}
+
+
+.timeago { color:#ccc;}
+
+.sortby { margin-top:10px; color:#999;}
+.sortby a:hover { text-decoration:underline;}
+.sortby a.selected { font-weight:bold;}

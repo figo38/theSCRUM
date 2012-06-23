@@ -33,15 +33,15 @@ var Stats = Class.create({
 	    var f = Flotr.draw(
 			$(containerId), [
 				{data:d1, label: dataLabel},
-				{data:average4Data, label:'average (last 4 values)'}
+				{data:average4Data, label:'Average (last 4 values)'}
 			],{
 				legend:{
-					position: 'se', // => position the legend 'south-east'.
+					position: 'nw', // => position the legend 'south-east'.
 					backgroundColor: '#D2E8FF' // => a light blue background color.
 				},
 				xaxis:{
 					noTicks: nbSprint,
-					tickFormatter: function(n){ return 'Sprint ' + parseInt(n); }
+					tickFormatter: function(n){ return 'S' + parseInt(n); }
 				},
 				yaxis:{
 					tickFormatter: function(n){ return parseInt(n) + ' ' + yLabel; },

@@ -62,12 +62,7 @@
 			/*}*/
 		}
 
-		public static function getAllUsers() {
-			global $DB;
-			$sth = $DB->prepare('SELECT usr_login login, usr_is_admin is_admin, usr_last_login_date last_login_date FROM user ORDER BY usr_login');
-			$sth->execute();
-			return $sth->fetchAll();			
-		}
+
 
 	}
 ?>

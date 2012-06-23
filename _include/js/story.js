@@ -1,34 +1,29 @@
+var STORYTYPE_EPIC=2;
+
 /**
   * Class to manage interactions on stories (inline editing...)
   */
 var Story = Class.create({
-	initialize: function() { },
-
+	/**
+	  *
+	  */
 	addSubStory: function(storyId) {
-		new ProductBacklogTip('addstory-' + storyId, "Add a story", {
-			title: "Add a new story",
+		new ProductBacklogTip('addstory-' + storyId, 'Add a sub-story', {
 			stem: 'rightMiddle',
 			hook: { target: 'leftMiddle', tip: 'rightMiddle' },
 			ajax: {
 				url: PATH_TO_ROOT + '_ajax/story/add_story_to_epic.php?id=' + $F('productBacklog_projectId') + '&epicId=' + storyId,
-				options: { onComplete: function() {
-					// Once the "add story" pop-up is shown, add a Click event listener on the "add story" button
-					$('productBacklog_addStory_submit_' + storyId).observe('click', function(event) {
-						var productbackloginstance = new ProductBacklog();
-						productbackloginstance.addSubStory(storyId);
-					});
-					$('productBacklog_addStory_cancel_' + storyId).observe('click', function(event) {
-						Tips.hideAll();
-					});					
-					$('new_acceptance_emptyit_' + storyId).observe('click', function(event) {
-						$('new_acceptance_' + storyId).value = '';
-						$('new_acceptance_' + storyId).focus();
-					});
-					$('new_story_emptyit_' + storyId).observe('click', function(event) {
-						$('new_story_' + storyId).value = '';
-						$('new_story_' + storyId).focus();
-					});
-				} }
+				options: { 
+					onComplete: function() {
+						// Once the "add story" pop-up is shown, enables the "add story", "cancel" buttons and reset links
+						PBClick('productBacklog_addStory_submit_' + storyId, function(evt) {
+							new ProductBacklog().addSubStory(storyId);
+						});						
+						PBCancelButton('productBacklog_addStory_cancel_' + storyId);
+						PBReset('new_acceptance_emptyit_' + storyId, 'new_acceptance_' + storyId);
+						PBReset('new_story_emptyit_' + storyId, 'new_story_' + storyId);
+					} 
+				}
 			}
 		});
 	},
@@ -127,7 +122,6 @@ var Story = Class.create({
 	editStoryDetails: function(storyId, storyType, epicId) {
 		// Manage the tooltip to change the details of a story
 		new ProductBacklogTip('details-' + storyId, "Story details", {
-			title: "Story details",
 			stem: 'rightMiddle',
 			hook: { target: 'leftMiddle', tip: 'rightMiddle' },
 			ajax: {
@@ -147,93 +141,83 @@ var Story = Class.create({
 						});
 					});
 					
-					// Move outside epic
-					if ($('productBacklog_moveOutsideEpic_save-' + storyId) != undefined) {
-						$('productBacklog_moveOutsideEpic_save-' + storyId).observe('click', function(evt){
-							var S = new PBSavingMsg();
-							new Ajax.Request(PATH_TO_ROOT + '_ajax/story/move_outside_epic.php', {
-								method:'post',
-								parameters: {
-									id: storyId
-								},
-								onSuccess: function(transport){
-									if (transport.responseText == 'true') {
-										Tips.hideAll();
+					// Manage the "Move outside epic" option
+					PBClick('productBacklog_moveOutsideEpic_save-' + storyId, function(evt){
+						var S = new PBSavingMsg();
+						new Ajax.Request(PATH_TO_ROOT + '_ajax/story/move_outside_epic.php', {
+							method:'post',
+							parameters: {
+								id: storyId
+							},
+							onSuccess: function(transport){
+								if (transport.responseText == 'true') {
+									Tips.hideAll();
 
-										$('storyrow-' + storyId).addClassName('levelone');
-										$('storyrow-' + storyId).removeClassName('substory');
-										$('storyrow-' + storyId).removeClassName('firstsubstory');
-										$('storyrow-' + storyId).removeClassName('lastsubstory');										
-										$('storyrow-' + storyId).removeClassName('substory' + epicId);
-										$("storyrowblankline-" + epicId).insert({ 'before': $('storyrow-' + storyId) });
-										$('story-prio-' + storyId).innerHTML = '0';
+									$('storyrow-' + storyId).addClassName('levelone');
+									$('storyrow-' + storyId).removeClassName('substory');
+									$('storyrow-' + storyId).removeClassName('firstsubstory');
+									$('storyrow-' + storyId).removeClassName('lastsubstory');										
+									$('storyrow-' + storyId).removeClassName('substory' + epicId);
+									$("storyrowblankline-" + epicId).insert({ 'before': $('storyrow-' + storyId) });
+									$('story-prio-' + storyId).innerHTML = '0';
 										
-										var td = new Element('td', { colspan: '7' }).update("&nbsp;");
-										var tr = new Element('tr', { class: 'blankline', id: 'storyrowblankline-' + storyId }).update(td);
-										$("storyrow-" + storyId).insert({ 'before': tr });
-										
-										new ProductBacklog().applyStylesToEpic(epicId);
-										Effect.ScrollTo('storyrow-' + storyId);
-										new Effect.Highlight($('storyrow-' + storyId));										
-										S.done();						
+									var td = new Element('td', { colspan: '7' }).update("&nbsp;");
+									var tr = new Element('tr', { class: 'blankline', id: 'storyrowblankline-' + storyId }).update(td);
+									$("storyrow-" + storyId).insert({ 'before': tr });
+																							
+									new ProductBacklog().applyStylesToEpic(epicId);
+									Effect.ScrollTo('storyrow-' + storyId);
+									new Effect.Highlight($('storyrow-' + storyId));										
+									S.done();						
 
-										// Force the reloading of the "show details" panel
-										new Story().editStoryDetails(storyId, storyType, 0);
-									} else {
-										S.done();
-									}
+									// Force the reloading of the "show details" panel 
+									new Story().editStoryDetails(storyId, storyType, 0);									
+								} else {
+									S.done();
 								}
-							});
+							}
 						});
-					}
+					});
 
-					// Move inside epic
-					if ($('productBacklog_moveInsideEpic_save-' + storyId) != undefined) {
-						$('productBacklog_moveInsideEpic_save-' + storyId).observe('click', function(evt){
-							// First step: validate if the epic ID is valid
-							var S = new PBSavingMsg();
-							var newepicId = $F('productBacklog_moveInsideEpic_epicId-' + storyId);
-							new Ajax.Request(PATH_TO_ROOT + '_ajax/story/move_inside_epic.php', {
-								method:'post',
-								parameters: {
-									id: storyId,
-									eid: newepicId
-								},
-								onSuccess: function(transport){
-									if (transport.responseText == 'true') {
-										Tips.hideAll();
-										// Move the story to its new location
-										$("storyrow-" + newepicId).insert({ 'after': $('storyrow-' + storyId) });
-										$("storyrowblankline-" + storyId).remove();
-										$('storyrow-' + storyId).removeClassName('levelone');
-										$('storyrow-' + storyId).addClassName('substory');
-										$('storyrow-' + storyId).addClassName('substory' + newepicId);
-										new ProductBacklog().applyStylesToEpic(newepicId);
-										Effect.ScrollTo('storyrow-' + newepicId);										
-										new Effect.Highlight($('storyrow-' + storyId));
-										S.done();
+
+					// Manage the "Move inside epic" option
+					PBClick('productBacklog_moveInsideEpic_save-' + storyId, function(evt){																					
+						// First step: validate if the epic ID is valid
+						var S = new PBSavingMsg();
+						var newepicId = $F('productBacklog_moveInsideEpic_epicId-' + storyId);
+						new Ajax.Request(PATH_TO_ROOT + '_ajax/story/move_inside_epic.php', {
+							method:'post',
+							parameters: {
+								id: storyId,
+								eid: newepicId
+							},
+							onSuccess: function(transport){
+								if (transport.responseText == 'true') {
+									Tips.hideAll();
+									// Move the story to its new location
+									$("storyrow-" + newepicId).insert({ 'after': $('storyrow-' + storyId) });
+									$("storyrowblankline-" + storyId).remove();
+									$('storyrow-' + storyId).removeClassName('levelone');
+									$('storyrow-' + storyId).addClassName('substory');
+									$('storyrow-' + storyId).addClassName('substory' + newepicId);
+									new ProductBacklog().applyStylesToEpic(newepicId);
+									Effect.ScrollTo('storyrow-' + newepicId);										
+									new Effect.Highlight($('storyrow-' + storyId));
+									S.done();
 										
-										// Force the reloading of the "show details" panel
-										new Story().editStoryDetails(storyId, storyType, newepicId);
-									} else {
-										$('productBacklog_moveInsideEpic_error-' + storyId).show();
-										Effect.Fade('productBacklog_moveInsideEpic_error-' + storyId);
-										S.done();
-									}
+									// Force the reloading of the "show details" panel
+									new Story().editStoryDetails(storyId, storyType, newepicId);
+								} else {
+									$('productBacklog_moveInsideEpic_error-' + storyId).show();
+									Effect.Fade('productBacklog_moveInsideEpic_error-' + storyId);
+									S.done();
 								}
-							});
+							}
 						});
-					}
+					});
 
-					// When cancelling, we hide the tooltip
-					$('productBacklog_showDetails_cancel_' + storyId).observe('click', function(event) {
-						Tips.hideAll();
-					});
-					
-					$('bug_url_field_emptyit_' + storyId).observe('click', function(event) {
-						$('bug_url_field_text_' + storyId).value = '';
-						$('bug_url_field_text_' + storyId).focus();
-					});
+					PBCancelButton('productBacklog_showDetails_cancel_' + storyId);
+					PBReset('bug_url_field_emptyit_' + storyId, 'bug_url_field_text_' + storyId);
 
 					$$('#productBacklog_showdetails-' + storyId + ' input[type=radio]').each(function(elt){
 						elt.observe('click', function(event){
@@ -271,11 +255,11 @@ var Story = Class.create({
 						new Ajax.Request(PATH_TO_ROOT + '_ajax/story/save_details.php', {
 							method:'post',
 							parameters: { 
-								featuregroups: selectedFields, 
+								tags: selectedFields, 
 								id: storyId,
 								url: urlField,
 								releaseId: selectedRelease,
-								storytypeid: storyType },
+								storytype: storyType },
 							onSuccess: function(transport){
 								// When changes saved, hide the tooltip
 								Tips.hideAll();
@@ -329,10 +313,22 @@ var Story = Class.create({
 		});
 	},
 
+	getEpicId: function(storyId) {
+		var epicId = 0;
+		if ($('storyrow-' + storyId).hasClassName('substory')) {
+			$('storyrow-' + storyId).classNames().each(function(classname) {
+				if (classname.startsWith('substory') && classname.length > 8) {
+					epicId = classname.substr(8);
+				}												
+			});
+		}
+		return epicId;
+	},
+
 	/**
 	  * In-place editor for the priority of story
 	  */
-	enableInteractionPriority: function(storyId, storyType, epicId) {
+	enableInteractionPriority: function(storyId, storyType) {
 		// In-line editor for the "piority" field
 		new PBInPlaceEditor('story-prio-' + storyId, { 
 			cols: 4,
@@ -340,6 +336,8 @@ var Story = Class.create({
 				// When the "priority" field has been updated, we do the following actions:
 				// 1. If a sub-story has been updated, then synch-up the priority of the corresponding epic
 				// 2. Dynamically re-order the product backlog based on the new priority
+				var epicId = new Story().getEpicId(storyId);
+				
 				if (epicId > 0) {
 					// Move the updated story in order for all the substories inside the epic to be sorted properly
 					new Story().moveStoryInsideEpic(storyId, epicId);
@@ -351,14 +349,12 @@ var Story = Class.create({
 					if (storyIdPrio - epicIdPrio > 0) {
 						new Ajax.Updater('story-prio-' + epicId, PATH_TO_ROOT + '_ajax/field_update.php', {
 							method:'post',
-							parameters: { 
+							parameters: {
 								id: 'story-prio-' + epicId, 
 								old_content: epicIdPrio,
 								new_content: storyIdPrio },
 							onComplete: function(transport){
-								if (200 == transport.status) {
-									new Effect.Highlight($('story-prio-' + epicId));
-								}
+								new Effect.Highlight($('story-prio-' + epicId));
 								new Story().moveLevelOneStory(epicId);
 							},
 							onFailure: function(){ alert('Something went wrong...') }
@@ -373,13 +369,10 @@ var Story = Class.create({
 		});
 	},
 
-
-	/* storyType = -1 ; epicID = -1 when we don't know those values when calling the method */
-	enableInteraction: function(storyId, storyType, epicId) {
-		new Story().enableInteractionPriority(storyId, storyType, epicId);		
-		
-		new PBInPlaceEditor('story-estim-' + storyId, { cols: 3 });
-
+	/**
+	  * In-place editor for the priority of story
+	  */
+	enableInteractionPercentage: function(storyId) {
 		new PBInPlaceEditor('story-percentage-' + storyId, { 
 			cols: 3, 
 			onComplete: function() {
@@ -406,38 +399,28 @@ var Story = Class.create({
 					});					
 				}				
 			}
-		});
+		});		
+	},
 
-		new PBInPlaceEditor('story-story-' + storyId, { rows: 3 });
-		new PBInPlaceEditor('story-criteria-' + storyId, { rows: 3 });
-		new PBLightview("storynotes-" + storyId, $('story-story-' + storyId).innerHTML, PATH_TO_ROOT + 'notes/' + storyId);
-	
-		/* For EPICS only */
-		if (storyType == 2) {
-			new ProductBacklog().applyStylesToEpic(storyId);
-			new Story().addSubStory(storyId);
-		}
-
-		new Story().editStoryDetails(storyId, storyType, epicId);
-		
-		// Display the tooltip to manage the deletion of a user story
-		new ProductBacklogTip('delete-' + storyId, "Delete the story", {
-			title: "Delete the story",
+	/**
+	  * Display the tooltip to manage the deletion of a user story, and AJAX call to effectively delete the story
+	  */
+	enableInteractionDeleteStory: function(storyId, storyType, epicId) {
+		new ProductBacklogTip('delete-' + storyId, 'Delete the story', {
 			stem: 'topRight',
 			hook: { target: 'topMiddle', tip: 'topRight' },
 			ajax: {			
 				url: PATH_TO_ROOT + '_ajax/story/delete.php?id=' + storyId,
 				options: { onComplete: function() {
-					// When clicking on the "CANCEL" button, do nothin
-					$('productBacklog_deleteStory_cancel_' + storyId).observe('click', function(event) {
-						Tips.hideAll();
-					});
+					PBCancelButton('productBacklog_deleteStory_cancel_' + storyId);
+
 					// When clicking on the "GO AHEAD" button, do an AJAX call to remove the story from the DB.
 					$('productBacklog_deleteStory_delete_' + storyId).observe('click', function(event) {
-						new Ajax.Request(PATH_TO_ROOT + '_ajax/story/delete_db.php?id=' + storyId, {
-							method: 'get',
+						new Ajax.Request(PATH_TO_ROOT + '_ajax/story/delete_db.php', {
+							method: 'post',
+							parameters: { id: storyId },
 							onComplete: function(transport) {
-								if (transport.responseText == "FAILED") {
+								if (transport.responseText == 'FAILED') {
 									alert('Problem');
 								} else {
 									Tips.hideAll();
@@ -456,6 +439,34 @@ var Story = Class.create({
 					}); 
 				} }
 			}
-		});
+		});		
+	},
+
+	/**
+	  * Enable interaction on all fields of a story
+	  * TODO: not good design: storyType = -1 ; epicID = -1 when we don't know those values when calling the method
+	  */
+	enableInteraction: function(storyId, storyType, epicId) {
+		// Basic in-place editors (estimation, story title, acceptance criteria, story notes)
+		new PBInPlaceEditor('story-estim-' + storyId, { cols: 3 });
+		new PBInPlaceEditor('story-story-' + storyId, { rows: 3 });
+		new PBInPlaceEditor('story-criteria-' + storyId, { rows: 3 });
+		new PBLightview('storynotes-' + storyId, $('story-story-' + storyId).innerHTML, PATH_TO_ROOT + 'notes/' + storyId);		
+		
+		// In-place editor for percentage of completion
+		this.enableInteractionPercentage(storyId);
+		
+		// In-place editors for priority and story details
+		this.enableInteractionPriority(storyId, storyType);				
+		this.editStoryDetails(storyId, storyType, epicId);
+		
+		// Manage the deletion of story
+		this.enableInteractionDeleteStory(storyId, storyType, epicId);
+
+		// If this is an epic, then activate the "add sub story" button
+		if (storyType == STORYTYPE_EPIC) {
+			new ProductBacklog().applyStylesToEpic(storyId);
+			this.addSubStory(storyId);
+		}
 	}
 });

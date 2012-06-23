@@ -46,6 +46,11 @@
 							break;
 					}
 				}
+
+				// Ensure there isn't two snapshots per day
+				$sth = $DB->prepare('DELETE FROM sprint_snapshot WHERE sps_snapshot_date = CURDATE() AND spr_id=?');
+				$sth->bindParam(1, $sprintId, PDO::PARAM_INT);
+				Helpers::executeStatement($sth);
 	
 				$sth = $DB->prepare('INSERT INTO sprint_snapshot (spr_id, sps_snapshot_date, sps_tasks_nr, sps_tasks_todo, sps_tasks_inprogress, sps_tasks_done, sps_unit_reestim, sps_unit_remaining) VALUES (?, NOW(), ?, ?, ?, ?, ?, ?)');
 				$sth->bindParam(1, $sprintId, PDO::PARAM_INT);

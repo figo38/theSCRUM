@@ -3,10 +3,10 @@
 	include_once '../_classes/classloader.php';
 	$storyId = $_REQUEST['id'];
 	
-	$PBH = new ProductBacklogHelpers();
-	$res = $PBH->deleteLinkRelease($storyId);
-	if ($res == $storyId) {
-		echo $res;
+	$S = new Story($storyId);
+		
+	if ($S->removeFromRelease()) {
+		echo $storyId;
 	} else {
 		echo 'FAILED';
 	}	

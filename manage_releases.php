@@ -14,29 +14,25 @@
 	$hasRights = $USERAUTH->isProductOwner() || $USERAUTH->isAdmin() || $USERAUTH->isScrumMaster();
 ?>
 
-<h1>Release dashboard</h1>
+<h1>Releases</h1>
 
-<form method="post" name="filtering" action="#">
-<div id="filteringoptions">
-	<div class="filters">
-		<h2>Filtering options</h2>
-		<input type="checkbox" name="showCompletedReleases" id="showCompletedReleases" value="1" <?php if ($showCompletedReleases == 1) echo 'checked'; ?>/> <label for="showCompletedReleases" style="margin-right:40px">Show completed releases</label>
-
-		<button type="submit">Refresh</button>
-	</div>
-</div>
-</form>
-
-<?php if ($hasRights) { ?>
 <div id="actionbar">
-	<button type="button" id="addnewobject"><span class="btngAddObject">Add a new release</span></button>
-</div>
-<?php
-} else { ?>
-<br/>
+<?php if ($hasRights) { ?>
+	<div class="left">
+		<button type="button" id="addnewobject"><span class="btngAddObject">Add a new release</span></button>
+	</div>
 <?php } ?>
-
-<?php if ($showCompletedReleases == 0) { echo '<div style="margin-bottom:5px; font-style:italic; color:#999">Only releases being worked on are displayed in this menu.</div>'; } ?>
+	<div class="right">
+        <form method="post" name="filtering" action="#">
+        <input type="checkbox" name="showCompletedReleases" id="showCompletedReleases" value="1" <?php if ($showCompletedReleases == 1) echo 'checked'; ?>/> 
+        <label for="showCompletedReleases" style="display:inline">Show completed releases</label>
+        <button type="submit">Refresh</button>
+        </form>    
+    </div>
+    <div class="clear"></div>
+</div>
+ 
+<?php if ($showCompletedReleases == 0) { echo '<div style="margin-bottom:5px; font-style:italic; color:#999">Only releases being worked on are displayed in this list.</div>'; } ?>
 
 <table id="sortablereleaselist">
 <thead>

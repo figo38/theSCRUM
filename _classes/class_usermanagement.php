@@ -14,6 +14,8 @@
 					$U = new User($this->userlogin, true);
 					unset($_SESSION['_auth_user']);
 					$_SESSION['_auth_user'] = $U;
+				} else {
+					throw new Exception('Not logged in');
 				}
 			}		
 		}

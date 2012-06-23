@@ -1,38 +1,40 @@
 <?php
+	/**
+	  * Update an existing story
+	  * @param id Story ID
+	  * @param releaseId Release ID
+	  * @param tags List of tags separated by ";"
+	  * @param url URL if the story type is "bug"
+	  * @param storytype Story type
+	  */
+
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 	
-	$storyId = $_REQUEST['id'];
-	$featuregroups = $_REQUEST['featuregroups'];
-	$storyType = isset($_REQUEST ['storytypeid']) ? $_REQUEST ['storytypeid'] : 1;
-	$url = isset($_REQUEST['url']) ? trim($_REQUEST['url']) : NULL;
+	$storyId = getRequestParameter('id');
+	$releaseId = getRequestParameter('releaseId', 0);
+	$tags = getRequestParameter('tags');
+	$url = getRequestParameter('url');
+	$storyTypeID = getRequestIntParameter('storytype', Story::STORY);
 
-	if ($storyType != Story::BUG) {
-		error_log('ici');
+	// Url field only makes sense for "bug" story type
+	if ($storyTypeID != Story::BUG) {
 		$url = NULL;
 	}
 
-	$featureGroupIDs = array();
-	$tab = explode(';', $featuregroups);
+	// Parse the list of tags into an array
+	$tagIDs = array();
+	$tab = explode(';', $tags);
 	foreach ($tab as $key=>$val) {
 		if (is_numeric($val)) {
-			$featureGroupIDs[] = $val;
+			$tagIDs[] = $val;
 		}
 	}
 
+	// Update the story
 	$S = new Story($storyId);
-	$S->updateType($storyType);
-	if ($storyType == Story::BUG) {
-		error_log($url . '-' . $storyId);
-		$S->updateURL($url);
-	}
-
-	$releaseId = $_REQUEST['releaseId'];
-	if ($releaseId > 0) {
-		$res= $S->updateReleaseLink($releaseId);
-	} else {
-		$S->deleteLinkRelease();
-	}
-
-	$storyId = $S->updateFeatureGroups($featureGroupIDs);
+	$S->updateType($storyTypeID);
+	$S->updateURL($url);
+	$S->updateTags($tagIDs);
+	$S->updateRelease($releaseId);
 ?>

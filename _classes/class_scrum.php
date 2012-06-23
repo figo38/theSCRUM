@@ -1,7 +1,5 @@
 <?php
 	class Scrum {
-
-
 		
 		public static function addRelease($releaseName, $releaseType) {
 			global $DB;
@@ -28,7 +26,5 @@
 			$sth->bindParam(2, $USERAUTH->getUserLogin());		
 			return Helpers::executeInsertStatement($sth);
 		}
-
-
 	}
 ?>

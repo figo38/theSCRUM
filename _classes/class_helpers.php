@@ -47,7 +47,11 @@
 				return NULL;
 			}
 		}
-		
+
+		public static function executeUpdateStatement($sth) {
+			return Helpers::executeStatement($sth) ? $sth->rowCount() : 0;			
+		}
+
 		public static function executeInsertStatement($sth) {
 			// TODO: transaction management?
 			global $DB;

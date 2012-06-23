@@ -14,7 +14,6 @@ var ReleaseMngt = Class.create({
 	// Display the tooltip to manage the deletion of a link story-release
 	enableLinkDeletion: function(storyId) {
 		new ProductBacklogTip('deletelink-' + storyId, "Delete the link story-release", {
-			title: "Delete the link story-release",
 			stem: 'topRight',
 			hook: { target: 'topMiddle', tip: 'topRight' },
 			ajax: {
@@ -48,7 +47,7 @@ var ReleaseMngt = Class.create({
 	initAddReleaseButton: function() {
 		new PBAddButton('Add a new release', 'release', function(id){
 			var releasemngt = new ReleaseMngt();
-			releasemngt.enableInteraction(releaseId);
+			releasemngt.enableInteraction(id);
 		});
 	}
 });

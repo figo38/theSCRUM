@@ -43,8 +43,13 @@
 
 <script type="text/javascript">
 <!--
-
 new BurndownChart( <?php echo $nbDays?>, <?php echo $totalEstim?>, <?php echo $nbTasks?>, '<?php echo $UNIT?>');
-
+<?php
+	if ($flagHasRight) {
+?>
+new PBInPlaceEditor('sprint-goal-<?php echo $S->getId();?>', { rows:3 });
+<?php
+	}
+?>	
 -->
 </script>

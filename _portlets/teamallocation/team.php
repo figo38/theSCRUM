@@ -1,9 +1,9 @@
-<table>
+<table style="width:60%">
 <caption>Team allocation</caption>
 <thead>
 <tr>
 	<th>Team member</th>
-	<th>%</th>
+	<th>Percentage</th>
 </tr>
 </thead>
 <tbody>

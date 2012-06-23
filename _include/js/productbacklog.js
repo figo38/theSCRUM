@@ -5,38 +5,23 @@ var AcceptanceDefaultValue = 'Given [context] And [some more context]... When [e
   * Class to manage a product backlog: add story, edit story...
   */
 var ProductBacklog = Class.create({
-	initialize: function() { },
-
 	// Init the "add story" button by adding a Tip listener on it
 	// @param projectid ID of the project for which we want to create a new user story
 	initAddStoryButton: function() {
-		new ProductBacklogTip('addnewobject', "Add a new user story to this project... Loading...", {
-			title: "Add a new story",
+		new ProductBacklogTip('addnewobject', 'Add a new story', {
 			stem: 'topLeft',
 			hook: { target: 'topMiddle', tip: 'topLeft' },
 			ajax: {
 				url: PATH_TO_ROOT + '_ajax/story/add.php?id=' + $F('productBacklog_projectId'),
 				options: { 
 					onComplete: function() {
-						// Once the "add story" pop-up is shown, add a Click event listener on the "add story" button
-						$('productBacklog_addStory_cancel').observe('click', function(event) {
-							Tips.hideAll();
-						});
+						PBCancelButton('productBacklog_addStory_cancel');
+						PBReset('new_acceptance_emptyit', 'new_acceptance');
+						PBReset('new_story_emptyit', 'new_story');
+						PBReset('bug_url_field_emptyit', 'bug_url_field_text');
+						
 						$('productBacklog_addStory_submit').observe('click', function(event) {
-							var productbackloginstance = new ProductBacklog();
-							productbackloginstance.addNewStory();
-						});
-						$('new_acceptance_emptyit').observe('click', function(event) {
-							$('new_acceptance').value = '';
-							$('new_acceptance').focus();
-						});
-						$('new_story_emptyit').observe('click', function(event) {
-							$('new_story').value = '';
-							$('new_story').focus();
-						});
-						$('bug_url_field_emptyit').observe('click', function(event) {
-							$('bug_url_field_text').value = '';
-							$('bug_url_field_text').focus();
+							new ProductBacklog().addNewStory();
 						});
 												
 						$('bug_url_field_get_title').observe('click', function(event) {
@@ -112,6 +97,7 @@ var ProductBacklog = Class.create({
 	addNewStory: function() {
 		// Ajax call to register the new story in the DB.
 		var projectId = $F('productBacklog_projectId');
+
 		new Ajax.Updater('story_tbody', PATH_TO_ROOT + '_ajax/story/add_db.php', {
 			method:'post',
 			parameters: { 
@@ -122,20 +108,18 @@ var ProductBacklog = Class.create({
 				id: projectId },
 			insertion: Insertion.Top,
 			onComplete: function(transport){
-				if (200 == transport.status) {
-					Tips.hideAll();
-					var storyId = $('story_tbody').firstDescendant().id.substr(18);
-					var storyType = $('storytype-' + storyId).innerHTML;
-					var story = new Story();
-					story.enableInteraction(storyId, storyType, 0);
+				Tips.hideAll();
+				var storyId = $('story_tbody').firstDescendant().id.substr(18);
+				var storyType = $('storytype-' + storyId).innerHTML;
+				var story = new Story();
+				story.enableInteraction(storyId, storyType, 0);
 										
-					Effect.Appear('storyrow-' + storyId);
-					Effect.Appear('storyrowblankline-' + storyId);
+				Effect.Appear('storyrow-' + storyId);
+				Effect.Appear('storyrowblankline-' + storyId);
 
-					// Reinit content of the fields, in case we want to create a new sub-story.
-					$('new_story').value = StoryDefautValue;
-					$('new_acceptance').value = AcceptanceDefaultValue;
-				}
+				// Reinit content of the fields, in case we want to create a new sub-story.
+				$('new_story').value = StoryDefautValue;
+				$('new_acceptance').value = AcceptanceDefaultValue;
 			},
 			onFailure: function(){ alert('Something went wrong...') }
 		});	

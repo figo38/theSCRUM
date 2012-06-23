@@ -1,83 +1,112 @@
 <?php
-	$JS = array('sprint', 'sprintplanning', 'story', 'sprintbacklog', 'teamallocation', 'burndown', 'retro', 'resizingpostits');		
+	/**
+	  * Manage the following views:
+	  * - sprint management for the project
+	  * - sprint backlog
+	  * - whiteboard
+	  * - burndown chart
+	  *
+	  * @param $viewtype Decide which page to display (set up by index.php controller)
+	  * @param $isConfigured (only if $viewtype=4) Indicates if configuration of current sprint has been done
+	  */
+
 	$menu = 2;
-	$includePortlet = '';
-	$pageTitle = '';	
+	
 	switch ($viewtype) {
 		case '1':
-			$includePortlet = '_portlets/sprint_backlog/view_sprint_planning.php';
-			$pageTitle = 'Sprint planning';
+			$includePortlet = '_portlets/sprint_backlog/view_sprint_backlog.php';
+			$JS = array('sprint', 'sprintplanning', 'story', 'sprintbacklog', 'teamallocation', 'retro');	
+			$pageTitle = 'Sprint backlog';
 			break;
 		case '2':
-			$includePortlet = '_portlets/sprint_backlog/view_sprint_backlog.php';
+			$includePortlet = '_portlets/sprint_backlog/view_whiteboard.php';
+			$JS = array('sprint', 'sprintplanning', 'story', 'sprintbacklog', 'teamallocation', 'burndown', 'retro', 'resizingpostits');
 			$pageTitle = 'Whiteboard';
 			break;
 		case '3':
 			$includePortlet = '_portlets/sprint_backlog/view_burndown_chart.php';
+			$JS = array('burndown');				
 			$pageTitle = 'Burndown chart';
-			break;					
+			break;
+		case '4':
+			// All sprints view
+			$includePortlet = '_portlets/sprint_backlog/sprints.php';
+			$JS = array('productbacklog', 'sprint');
+			$pageTitle = 'Sprint configuration';
+			break;
+		case '5':
+			$includePortlet = '_portlets/sprint_backlog/first_sprint.php';
+			$JS = array('productbacklog', 'sprint');
+			$pageTitle = 'Sprint configuration';
+			$sprintNumber = 1;
+			break;
+		case '6':
+			$includePortlet = '_portlets/sprint_backlog/view_sprint_configuration.php';
+			$JS = array('teamallocation', 'dayselection', 'copytasks');			
+			$pageTitle = 'Sprint configuration';
+			break;			
 	}
 	include '_portlets/project_header.php';
-
-	$showCompletedTasks = 1;
-	if (isset($_POST['id'])) {
-		$showCompletedTasks = isset($_POST['showCompletedTasks']) ? $_POST['showCompletedTasks'] : 0;
-	}
-		
-	$stories = $P->getAllStories(array('includecompleted' => 1));
-		
-	if (isset($S)) {
-		if (isset($_POST['copyFromPreviousSprint']) && $_POST['copyFromPreviousSprint'] == '1') {
-			$S->copyTasksFromPrevious();
-		}
 	
-		$TASKS = $S->getTasks(array('includecompleted' => $showCompletedTasks));
-		
-		if (sizeof($TEAM) > 0) {
+	// Only the product owner and scrum master have right access to the sprint backlog
+	$flagHasRight = $USERAUTH->isProductOwnerOf($projectId) || $USERAUTH->isScrumMasterOf($projectId);	
 ?>
-<form method="post" id="filtering" action="<?php echo $projectUrl?>">
-<div id="formgoalbox">
-	<div id="filteringoptions">
-		<div class="filters">
-			<h2>Filtering options</h2>
-			<input type="hidden" name="id" id="sprintBacklog_projectId" value="<?php echo $projectId?>"/>
-			<input type="hidden" name="sprintid" id="sprintBacklog_sprintId" value="<?php echo $sprintId?>"/>			
-			<input type="hidden" name="sprintnumber" id="sprintBacklog_sprintNumber" value="<?php echo $sprintNumber?>"/>			
-			<input type="checkbox" name="showCompletedTasks" id="showCompletedTasks" value="1" <?php if ($showCompletedTasks == 1) echo 'checked="checked"'; ?>/> <label for="showCompletedTasks" style="margin-right:40px">Show completed tasks</label>
-	
-			<label for="viewtype">View:</label>
-			<select name="viewtype" id="viewtype">
-				<option value="1"<?php if ($viewtype==1) echo ' selected="selected"';?>>Sprint planning</option>
-				<option value="2"<?php if ($viewtype==2) echo ' selected="selected"';?>>Whiteboard</option>
-				<option value="3"<?php if ($viewtype==3) echo ' selected="selected"';?>>Burndown chart</option>                
-			</select>
-	
-			<button type="submit" id="submitform">Refresh</button>
-		</div>
+
+<div id="subsubmenuheader">
+<?php if ($viewtype < 4 && isset($S) && (strlen($S->getGoal()) > 0 || $flagHasRight)) { ?>	
+	<div id="goals">
+		<strong>Sprint goal:</strong>
+        <span id="sprint-goal-<?php echo $S->getId();?>"><?php echo $S->getGoal()?></span>
 	</div>
-<?php if (strlen($S->getGoal()) > 0) { ?>	
-	<div id="goals"><strong>Sprint goal:</strong> <?php echo $S->getGoal()?></div>
 <?php } ?>
-	<div class="clear"></div>
+	<div class="subsubmenu">
+		<ul>
+			<li<?php if ($viewtype == 4 || $viewtype == 5) echo ' class="selected"';?>>
+				<a href="<?php echo $projectUrl?>/sprints/">All sprints</a>
+			</li>
+<?php if ($viewtype == 6 || (isset($isConfigured) && $isConfigured == 0)) { ?>
+			<li<?php if ($viewtype == 6) echo ' class="selected"';?>>
+				<a href="<?php echo $projectUrl?>/configuration/<?php echo $sprintNumber?>">Configuration for sprint #<?php echo $sprintNumber?></a>
+			</li>
+<?php } else { ?>
+			<li<?php if ($viewtype == 1) echo ' class="selected"';?>>
+				<a href="<?php echo $projectUrl?>/sprintbacklog/<?php echo $sprintNumber?>">The sprint backlog #<?php echo $sprintNumber?></a>
+			</li>
+			<li<?php if ($viewtype == 2) echo ' class="selected"';?>>
+				<a href="<?php echo $projectUrl?>/whiteboard/<?php echo $sprintNumber?>">The whiteboard #<?php echo $sprintNumber?></a>
+			</li>
+			<li<?php if ($viewtype == 3) echo ' class="selected"';?>>
+				<a href="<?php echo $projectUrl?>/burndown/<?php echo $sprintNumber?>">The burndown #<?php echo $sprintNumber?></a>
+			</li>
+<?php } ?>	
+		</ul>
+	</div>
 </div>
+
+<form method="post" name="dummyForm" action="#">
+<input type="hidden" name="sprintBacklog_sprintId" id="sprintBacklog_sprintId" value="<?php echo $sprintId;?>"/>
 </form>
 
-<?php
-			if ($S->isClosed()) {
-				include '_portlets/sprint_backlog/closed_sprint.php';
-			}
-		}
+<div class="page">
 
-		include $includePortlet;
-	} else {
-?>
-<div class="infoMsg">
-	<div class="inner">
-		No team has been set up for this project. <a href="./manage_project_team.php?id=<?php echo $projectId?>">Go and build your team &raquo;</a>
-	</div>
-</div>
 <?php
-	}
+
+	if ($viewtype == 4 || $viewtype == 5) {
+		include $includePortlet;
+	} else { 
+		$stories = $P->getAllStories(array('includecompleted' => 1));
+		
+		if (isset($S)) {	
+			$TASKS = $S->getTasks(array('includecompleted' => 1));
+		
+			if (sizeof($TEAM) > 0) {
+				if ($S->isClosed()) {
+					include '_portlets/sprint_backlog/closed_sprint.php';
+				}
+			}
+
+			include $includePortlet;
+		}
 ?>
 
 <select id="teamMemberList">
@@ -87,17 +116,14 @@
 <?php }} ?>
 </select>
 
+<?php if ($S->isClosed() && $flagHasRight) { ?>
 <script type="text/javascript">
 <!--
-$('submitform').observe('click', function(event) {
-	var curr = $('filtering').action;
-	var sprintnumber = $F('sprintBacklog_sprintNumber');
-	if ($F('viewtype') == 1) { $('filtering').action = curr + '/sprintbacklog/' + sprintnumber;} else
-	if ($F('viewtype') == 2) { $('filtering').action = curr + '/whiteboard/' + sprintnumber;} else
-	if ($F('viewtype') == 3) { $('filtering').action = curr + '/burndown/' + sprintnumber;}	
-});
-<?php if ($S->isClosed() && ($USERAUTH->isScrumMasterOf($projectId) || $USERAUTH->isProductOwnerOf($projectId))) { ?>
 new Retro();
-<?php } ?>
 -->
 </script>
+<?php } ?>
+
+<?php
+	}
+?>

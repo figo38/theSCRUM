@@ -1,9 +1,9 @@
 <?php
 	$JS = array('project');
-	$pageTitle = 'Project dashboard';
+	$pageTitle = 'Projects';
 	include '_include/header.php';
 ?>
-<h1>Project dashboard</h1>
+<h1>Projects</h1>
 
 <?php if ($USERAUTH->isAdmin()) { ?>
 <div id="actionbar">
@@ -17,19 +17,22 @@
 <thead>
 <tr>
 	<th>Project name</th>
-	<th>Unit</th>
+	<th><abbr id="project_unit">Unit</abbr></th>
 	<th>Velocity</th>
 	<th>Goal</th>
 	<th>Manage sprints?</th>
+	<th><abbr id="generation_hour">Generation time</abbr></th>
 	<th>&nbsp;</th> 
 </tr>
 </thead>
 <tbody id="project_tbody">
-<?php 
-	foreach ($projects as $key => $project) { 
-		$PD = new ProjectDisplay($project);
-		$PD->render();
-	} 
+<?php
+	if ($projects) {
+		foreach ($projects as $key => $project) { 
+			$PD = new ProjectDisplay($project);
+			$PD->render();
+		}
+	}
 ?>
 </tbody>
 </table>

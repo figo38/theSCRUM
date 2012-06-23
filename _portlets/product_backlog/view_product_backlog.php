@@ -1,10 +1,16 @@
-<?php
-	$flagHasRight = $USERAUTH->isProductOwnerOf($projectId) || $USERAUTH->isScrumMasterOf($projectId);
-?>	
-
 <?php if ($flagHasRight) { ?>
 <div id="actionbar">
-	<button type="button" id="addnewobject"><span class="btngAddObject">Add a new story</span></button>
+	<div class="left">
+		<button type="button" id="addnewobject"><span class="btngAddObject">Add a new story</span></button>
+	</div>
+	<div class="right">
+		<form method="post" id="filtering" action="<?php echo $projectUrl?>">
+		<input type="hidden" name="id" id="productBacklog_projectId" value="<?php echo $projectId?>"/>
+		<input type="checkbox" name="showCompletedStories" id="showCompletedStories" value="1" <?php if ($showCompletedStories == 1) echo 'checked'; ?>/> <label for="showCompletedStories" style="display:inline">Show completed stories</label>	
+		<button type="submit" id="submitform">Refresh</button>
+		</form>
+	</div>
+	<div class="clear"></div>
 </div>
 <?php } else { ?>
 <br/>
@@ -38,6 +44,7 @@
 <!--
 var productbackloginstance = new ProductBacklog();
 <?php if ($flagHasRight) { ?>
+new PBInPlaceEditor('project-goal-<?php echo $projectId;?>', { rows:3 });
 productbackloginstance.initAddStoryButton();
 var story = new Story();
 <?php foreach ($stories as $key => $story) { ?>

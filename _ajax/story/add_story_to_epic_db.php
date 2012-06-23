@@ -1,19 +1,28 @@
 <?php
+	/**
+	  * Add a new sub-story to an existing epic
+	  * @param id Project ID
+	  * @param eid Epic ID
+	  * @param story Story
+	  * @param acceptance Acceptance criteria
+	  * @param storytype Story type
+	  */
+
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 	
-	$projectId = $_REQUEST['id'];
-	$epicId = $_REQUEST['eid'];
-	$storyStory = $_REQUEST['story'];
-	$storyAcceptance = $_REQUEST['acceptance'];
-	$storyType = $_REQUEST['storytype'];
+	$projectId = getRequestIntParameter('id');	
+	$epicId = getRequestIntParameter('eid');
+	$storyStory = getRequestParameter('story');
+	$storyAcceptance = getRequestParameter('acceptance');
+	$storyTypeID = getRequestIntParameter('storytype', Story::STORY);
 
-	$storyTypeID = is_numeric($storyType) ? (integer)$storyType : 4;
-
+	// Create the story in the DB	
 	$P = new Project($projectId, true);
 	$storyId = $P->addStory($storyStory, $storyAcceptance, $storyTypeID, $epicId);
 	$projectUnit = $P->getUnit();
 
+	// Display the created story
 	$D = new StoryDisplay($storyId);
 	$D->setDisplayNone(true);
 	$D->render();

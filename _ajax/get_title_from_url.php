@@ -1,5 +1,13 @@
 <?php
-	$url = isset($_REQUEST['url']) ? trim($_REQUEST['url']) : NULL;
+	/**
+	  * Checks if an URL is valid
+	  * @param url URL to check
+	  */
+
+	include_once '../_classes/_functions.php';
+	
+	$url = getRequestParameter('url');	
+
 	$error = false;
 	$output = NULL;
 	

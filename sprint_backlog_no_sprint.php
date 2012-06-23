@@ -2,14 +2,40 @@
 	$pageTitle = 'No sprint';
 	$menu = 2;
 	include '_portlets/project_header.php';
-
-	if ($USERAUTH->isProductOwnerOf($projectId) || $USERAUTH->isScrumMasterOf($projectId)) {
 ?>
-<div class="infoMsg">
-	<div class="inner">Go to the <a href="<?php echo $projectUrl?>/sprints">sprint configuration</a> to create the first sprint for this project &raquo;</div>
+
+<div id="subsubmenuheader">
+	<div class="subsubmenu">
+        <ul>
+        	<li class="selected">First time configuration</li>
+		</ul>
+	</div>
 </div>
-<?php } else { ?>
-<div class="infoMsg">
-	<div class="inner">No sprint created yet for this project.</div>
-</div>
-<?php } ?>
+
+<div class="page">
+
+<?php
+	// If an admin is logged, check if there is a product owner ; if not, then display an help message
+	$flag = false;
+	if ($USERAUTH->isAdmin()) {
+		if (!$P->hasScrumMaster()) {
+			$flag = true; // No need to display any further message
+			HelpersControl::infoMsg('There is no scrum master assigned to this project. <a href="' . $projectUrl . '/team">You should choose someone &raquo;</a>');
+		}
+	}
+	
+	// If the scrum master is logged, check if there is some team members ; if not, then display an help message
+	if ($USERAUTH->isScrumMasterOf($projectId)) {		
+		if (!$P->hasTeamMember()) {
+			$flag = true; // No need to display any further message
+			HelpersControl::infoMsg('There is no team member assigned to this project. <a href="' . $projectUrl . '/team">You should choose someone &raquo;</a>');
+		} else {
+			$flag = true; // No need to display any further message
+			HelpersControl::infoMsg('Dear scrum master, it\'s time to <a href="' . $projectUrl . '/firstsprint">start your first sprint &raquo;</a>');		
+		}
+	} else {
+		if (!$flag) {
+			HelpersControl::infoMsg('There is no sprint yet for this project.');
+		}
+	} 
+?>

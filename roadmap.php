@@ -54,9 +54,10 @@
 			</div>
 <?php
 	}
-?>
+?>		
 		</div>	                
 	</div>
 </div>
 
 <div class="clear"></div>
+<br /><br />

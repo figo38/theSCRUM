@@ -7,7 +7,7 @@
 	$listType = $_REQUEST['listtype'];
 
 	$P = new Project($projectId);
-	
+
 	switch ($listType) {
 		case 'productowners':
 			$P->updateProductOwners($peopleList);

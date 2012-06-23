@@ -1,6 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head profile="http://gmpg.org/xfn/11">
+<head>
 <title><?php if (isset($pageTitle)) { echo $pageTitle . ' - '; }?>theSCRUM</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <script type="text/javascript">
@@ -12,9 +12,6 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 <script type="text/javascript" src="<?php echo PATH_TO_PROTOTIP?>js/prototip/prototip.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_PROTOTIP?>js/prototip/styles.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_LIGHTVIEW?>js/lightview.js"></script>
-<link rel="stylesheet" href="<?php echo PATH_TO_PROTOTIP?>css/prototip.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="<?php echo PATH_TO_LIGHTVIEW?>css/lightview.css" type="text/css" media="screen" />
-
 <script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/sortable.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/calendarview.js"></script>
 <script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/js/common.js"></script>
@@ -27,6 +24,8 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 <?php if (isset($JS)) { foreach ($JS as $key => $val) { ?>
 <script type="text/javascript" src="<?php echo PATH_TO_ROOT?>_include/js/<?php echo $val?>.js?ver=<?php echo THESCRUM_VERSION?>"></script>
 <?php }} ?>
+<link rel="stylesheet" href="<?php echo PATH_TO_PROTOTIP?>css/prototip.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="<?php echo PATH_TO_LIGHTVIEW?>css/lightview.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo PATH_TO_ROOT?>_include/styles.css?ver=<?php echo THESCRUM_VERSION?>" type="text/css" media="screen" />
 <link rel="stylesheet" href="<?php echo PATH_TO_ROOT?>_include/calendarview.css" type="text/css" media="screen" />
 </head>
@@ -34,7 +33,7 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 
 <div id="navcontainer">
 	<ul id="nav">
-    	<li><a class="one" href="<?php echo PATH_TO_ROOT?>"><img src="<?php echo PATH_TO_ROOT?>images/s.png" width="16" height="16" alt="Home" title="Home" /></a></li>
+		<li><a class="one" href="<?php echo PATH_TO_ROOT?>"><img src="<?php echo PATH_TO_ROOT?>images/s.png" width="16" height="16" alt="Home" title="Home" /></a></li>
 		<li><a class="one" href="<?php echo PATH_TO_ROOT?>roadmap">Roadmap</a>
 		<li><a class="one" href="<?php echo PATH_TO_ROOT?>project-dashboard">Projects</a>
 			<ul class="under">
@@ -54,7 +53,6 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 <?php } ?>
 			</ul>
 		</li>
-
 		<li><a class="one" href="<?php echo PATH_TO_ROOT?>release-dashboard">Releases</a>
 			<ul class="under">
 <?php if ($releases) { ?>
@@ -70,47 +68,60 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 <?php } ?>
 			</ul>
 		</li>
-<?php if ($USERAUTH->isAdmin()) { ?>
-		<li><a class="one" href="#">Administration</a>
-			<ul class="under">
-				<li><a href="<?php echo PATH_TO_ROOT?>user-management">User management</a></li>
-			</ul>
-		</li>
-<?php } ?>
-		<li><a class="one" href="#">Logged as <?php echo $USERAUTH->getUserLogin(); ?></a>
+		<li><a class="one" href="#" style="color:#000; background-color:#fafafa"><?php echo $USERAUTH->getUserLogin(); ?></a>
 			<ul class="under">
 <?php 
 	if ($USERRIGHTS) {
+		$currentRole = '';
 		foreach ($USERRIGHTS as $key => $right) {
-		$label = '&laquo;' . $right['projectname'] . '&raquo; ';
-		$href = null;
-
-		$hassprint = false;
-		foreach ($projects as $key => $project) {
-			if ($project['id'] == $right['projectid'] && $project['hassprints'] == 1) {
-				$hassprint = true;
+			$label = '&laquo;' . $right['projectname'] . '&raquo; ';
+			$href = null;
+	
+			$hassprint = false;
+			foreach ($projects as $key => $project) {
+				if ($project['id'] == $right['projectid'] && $project['hassprints'] == 1) {
+					$hassprint = true;
+				}
 			}
-		}
+			
+			if (strcmp($currentRole, $right['role']) != 0){
+				$currentRole = $right['role'];											
+				$currentRoleName = '';
+				switch ($currentRole) {
+					case 'P':
+						$currentRoleName = 'product owner';					
+						break;
+					case 'S':
+						$currentRoleName = 'scrum master';
+						break;
+					case 'T':
+						$currentRoleName = 'team member';
+						break;
+				}
+?>
+				<li><span>As <?php echo $currentRoleName;?>:</span></li>
+<?php											
+			}
 
-		switch ($right['role']) {
-			case 'P':
-				$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']);
-				$label .= 'product backlog';
-				break;
-			case 'S':
-				if ($hassprint) {
-					$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']) . '/sprintbacklog';
-					$label .= 'sprint backlog';
-				}	
-				break;
-			case 'T':
-				if ($hassprint) {
-					$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']) . '/whiteboard';
-					$label .= 'whiteboard';
-				}	
-				break;
-		}
-		if ($href != null) {
+			switch ($right['role']) {
+				case 'P':
+					$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']);
+					$label .= 'product backlog';
+					break;
+				case 'S':
+					if ($hassprint) {
+						$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']) . '/sprintbacklog';
+						$label .= 'sprint backlog';
+					}	
+					break;
+				case 'T':
+					if ($hassprint) {
+						$href = PATH_TO_ROOT . 'project/' . string2url($right['projectname']) . '/whiteboard';
+						$label .= 'whiteboard';
+					}	
+					break;
+			}
+			if ($href != null) {
 ?>
 				<li><a href="<?php echo $href?>"><?php echo $label?></a></li>
 <?php }}} else { ?>
@@ -118,6 +129,9 @@ var PATH_TO_ROOT = '<?php echo PATH_TO_ROOT?>';
 <?php } ?>
 			</ul>			
 		</li>
+<?php if ($USERAUTH->isAdmin()) { ?>
+		<li><a class="one" href="<?php echo PATH_TO_ROOT?>user-management">User management</a></li>
+<?php } ?>
 	</ul>
 </div>
 

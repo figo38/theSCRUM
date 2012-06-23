@@ -2,18 +2,57 @@
 	include_once 'global.php';
 	include_once '_classes/classloader.php';
 
+	if (!defined('THESCRUM_VERSION')) {
+		define('THESCRUM_VERSION', '0.70');
+	}
+
+	define('DISPLAY_DATE_FORMAT', 'M d, Y');
+	define('DISPLAY_DATETIME_FORMAT', 'M d, Y g:i');
+
 	$popup = false;
 
 	$projects = Project::getAllProjects();
-	$featuregroups = FeatureGroup::getAllFeatureGroups();
+	$featuregroups = FeatureGroup::getAllTags();
 	$releases = Release::getAllActiveReleases();
 	$monthreleases = Release::getDistinctMonthReleases(3);	
 
-	$USERRIGHTS = $USERAUTH->getRights();
-		
-	$uri = trim(isset($_REQUEST['uri']) ? $_REQUEST['uri'] : '');
+	$uri = getRequestParameter('uri');
 
-	if ($uri == '') {
+/*
+	$urlDefinitions = array(
+		// Project dashboard
+		'project-dashboard' => array(
+			'destination' => 'manage_projects.php'
+		),
+		// Release dashboard
+		'release-dashboard' => array(
+			'destination' => 'manage_releases.php'
+		),
+		'release-reports' => array(
+			'destination' => 'releases_report.php',
+			'params' => array(
+				'1' => 'yearMonth'
+			)			
+		),
+		// The Roadmap view							
+		'roadmap' => array(
+			'destination' => 'roadmap.php'
+		),	
+		// Tag dashboard
+		'tag-dashboard' => array(
+			'destination' => 'manage_tags.php'
+		),		
+		// The User management page - reserved to ADMIN
+		'user-management' => array(
+			'destination' => 'user.php',
+			'params' => array(
+				'1' => 'sortBy'
+			)
+		),			
+	);
+*/
+
+	if ($uri == NULL) {
 		// No URI means displaying the homepage
 		include '_portlets/home.php';
 	} else {
@@ -22,12 +61,35 @@
 		$tab = explode('/', $uri);
 		if (isset($tab[0])) {
 			// This case should always happen considering we have looked at empty URI from the start.
-			switch($tab[0]) {		
+			switch($tab[0]) {
+				
+				// NOT SUPPORTED IN 0.70 YET
+				case 'login':
+					echo getRequestParameter('loginFormLogin');
+					include '_portlets/login.php';
+					break;
+
+				// Direct access to snapshot generation
+				// Primarly used for development
+				case 'snapshots':
+					$noFooter = true;
+					include 'generate_sprint_snapshots.php';
+					break;
+					
 				// Basic pages
-				case 'roadmap': include 'roadmap.php'; break;
-				case 'user-management': include 'user.php'; break;
+				case 'roadmap': 
+					include 'roadmap.php'; 
+					break;
+				
+				// USER MANAGEMENT
+				case 'user-management':
+					if (isset($tab[1])) {
+						$sortby = $tab[1];
+					}
+					include 'user.php'; 
+					break;
 				case 'project-dashboard': include 'manage_projects.php'; break;
-				case 'tag-dashboard': include 'manage_feature_groups.php'; break;
+				case 'tag-dashboard': include 'manage_tags.php'; break;
 				case 'release-dashboard': include 'manage_releases.php'; break;
 				// Release pages
 				case 'release-reports': 
@@ -76,7 +138,8 @@
 					if (isset($tab[1])) {
 						foreach ($projects as $key => $project) {
 							$name = string2url($project['name']);
-							if ($tab[1] == $name) {
+							if ($tab[1] == $name && !$projectFound) {
+								$projectFound = true;
 								$matched = true;
 								$projectId = $project['id'];
 								$P = new Project($projectId, true);
@@ -90,8 +153,49 @@
 											include 'product_backlog.php'; 
 											break;										
 
+										case 'roadmap': 
+											$viewtype = 3; 
+											include 'product_backlog.php'; 
+											break;
+
 										// ------------------------------------- Sprint backlog views										
 										// Logic shared for the different views of the Sprint Backlog
+										case 'sprints':  
+											$viewtype = 4;
+											$lastSprint = $P->getLastSprint();
+											$sprintNumber = $lastSprint['nb'];
+											$isConfigured = $lastSprint['configured'];
+											include 'sprint_backlog.php';
+											break;										
+										
+										case 'firstsprint':
+											if (!$P->hasSprints()) {
+												// If the project is not configured to manage sprint planning, then we redirect to the homepage
+												redirectToHomepage();
+											} else {
+												// Retrieve the latest sprint nr
+												$lastSprint = $P->getLastSprint();
+												$sprintNumber = $lastSprint['nb'];										
+												if ($sprintNumber > 0) {
+													$redirectUrl = $_SERVER['REQUEST_URI'];
+													if (substr($redirectUrl, -1) == '/') { $redirectUrl = substr($redirectUrl, 0, -1);};
+													$redirectUrl .= '/' . $sprintNumber;
+													$host  = $_SERVER['HTTP_HOST'];
+													header("Location: http://$host" . PATH_TO_ROOT . 'project/' . $name . '/sprintbacklog/' . $sprintNumber);
+													exit;													
+												} else {
+													$viewtype = 5; 
+													include 'sprint_backlog.php';													
+												}
+											}
+											break;
+
+										// URL Structure: /project/<projectname>/<page>/[<additionalinfo>]
+										// I.e: /project/seo-project/sprintbacklog/5/
+										// I.e: /project/seo-project/configuration/5/team-allocation
+										// $tab[3] = '5'
+										// $tab[4] = 'team-allocation'
+										case 'configuration':
 										case 'sprintbacklog':
 										case 'whiteboard':
 										case 'burndown':
@@ -106,13 +210,43 @@
 														$sprintNumber = $tab[3];
 														$sprintId = $P->getSprintIdFromNumber($sprintNumber);
 														if ($sprintId > 0) {
-															$S = new Sprint($sprintId, true);															
+															// So the sprint number matches an existing sprint
+															$S = new Sprint($sprintId, true);
 															$ALLOCATION = $S->getTeamAllocation();
 															$TEAM = $P->getTeam();
 															
-															if ($ALLOCATION == NULL) {
-																include 'sprint_backlog_fill_allocation.php';
-															} else {															
+															$isConfigured = $S->getConfigured();
+															
+															if ($tab[2] == 'configuration') {
+																$viewtype = 6;
+																
+																if ($tab[4]) {
+																	switch ($tab[4]) {
+																		case 'team-allocation': $subviewtype = 1; break;
+																		case 'days-selection': $subviewtype = 2; break;
+																		case 'copy-tasks': $subviewtype = 3; break;
+																		default:
+																			$host  = $_SERVER['HTTP_HOST'];
+																			header("Location: http://$host" . PATH_TO_ROOT . 'project/' . $name . '/configuration/' . $sprintNumber . '/team-allocation');
+																			break;
+																	}
+																} else {
+																	$host  = $_SERVER['HTTP_HOST'];
+																	header("Location: http://$host" . PATH_TO_ROOT . 'project/' . $name . '/configuration/' . $sprintNumber . '/team-allocation');
+																}
+																include 'sprint_backlog.php';																
+															} else if ($isConfigured == 0) {
+																// Sprint not configured yet
+																switch ($tab[2]) {
+																	case 'sprintbacklog':
+																	case 'whiteboard':
+																	case 'burndown':
+																		$host  = $_SERVER['HTTP_HOST'];
+																		header("Location: http://$host" . PATH_TO_ROOT . 'project/' . $name . '/configuration/' . $sprintNumber . '/team-allocation');
+																		break;
+																}
+															} else {
+																// Sprint configured
 																switch ($tab[2]) {
 																	case 'sprintbacklog': $viewtype = 1; break;
 																	case 'whiteboard': $viewtype = 2; break;
@@ -132,7 +266,7 @@
 													$sprintId = $lastSprint['sprintid'];
 													$sprintNumber = $lastSprint['nb'];
 										
-													if ($sprintNumber > 0) {													
+													if ($sprintNumber > 0) {
 														$redirectUrl = $_SERVER['REQUEST_URI'];
 														if (substr($redirectUrl, -1) == '/') { $redirectUrl = substr($redirectUrl, 0, -1);}; 	
 														$redirectUrl .= '/' . $sprintNumber;
@@ -147,9 +281,9 @@
 											break;
 											
 										// ------------------------------------- Secondary pages
-										case 'team': include 'manage_project_team.php'; break;
-										case 'roadmap': include 'manage_roadmap.php'; break;
-										case 'sprints': include 'project_configuration.php'; break;
+										case 'team':
+											include 'manage_project_team.php'; 
+											break;
 										case 'stats': include 'project_stats.php'; break;
 										
 										// By default, we redirect the unknown page to a 404 page
@@ -174,13 +308,6 @@
 						include 'story_notes.php';
 					}
 					break;
-				case 'teamallocation':
-					$popup = true;
-					if (isset($tab[1]) && is_numeric($tab[1])) {
-						$sprintId = $tab[1];
-						include 'team_allocation.php';
-					}					
-					break;
 				default:
 					include '_portlets/404.php';
 					break;
@@ -192,7 +319,7 @@
 		}
 	}
 	
-	if (!$popup) {
+	if (!$popup && !$noFooter) {
 		include '_include/footer.php'; 
 	}
 ?>

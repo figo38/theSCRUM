@@ -14,22 +14,20 @@
 
 <ul class="submenu">
 	<li class="title">&laquo;<?php echo $P->getName()?>&raquo;</li>
-	<li><?php if ($menu == 1) { ?>Product backlog<?php } else { ?><a href="<?php echo $projectUrl?>">Product backlog</a><?php } ?></li>
-    
+	<li<?php if ($menu == 1) {?> class="selected"<?php } ?>><a href="<?php echo $projectUrl?>">Product backlog</a></li>
 <?php
-	if ($P->hasSprints()) {		
-		if ($menu == 2 && $sprintId > 0) {
-				
-		}
+	if ($P->hasSprints()) {
 ?>
-	<li><?php if ($menu == 2) { ?>Sprint backlog<?php if ($sprintId > 0) {?> #<?php echo $S->getSprintNumber()?><?php } ?><?php } else { ?><a href="<?php echo $projectUrl . '/sprintbacklog'?>">Sprint backlog</a><?php } ?></li>
-	<li class="secondary"><?php if ($menu == 3) { ?>Sprints<?php } else { ?><a href="<?php echo $projectUrl . '/sprints'?>">Sprints</a><?php } ?></li>
+	<li<?php if ($menu == 2) {?> class="selected"<?php } ?>><a href="<?php echo $projectUrl . '/sprintbacklog'?>">Sprints</a></li>
+<?php 
+	} 
+?>
+	<li<?php if ($menu == 4) {?> class="selected"<?php } ?>><a href="<?php echo $projectUrl . '/team'?>">Team</a></li>
 <?php
-	}
+	if ($P->hasSprints()) {
 ?>
-	<li class="secondary"><?php if ($menu == 4) { ?>Team<?php } else { ?><a href="<?php echo $projectUrl . '/team'?>">Team</a><?php } ?></li>
-	<li class="secondary"><?php if ($menu == 5) { ?>Roadmap<?php } else { ?><a href="<?php echo $projectUrl . '/roadmap'?>">Roadmap</a><?php } ?></li>
-	<li class="secondary"><?php if ($menu == 6) { ?>Stats<?php } else { ?><a href="<?php echo $projectUrl . '/stats'?>">Stats</a><?php } ?></li>    
+	<li<?php if ($menu == 6) {?> class="selected"<?php } ?>><a href="<?php echo $projectUrl . '/stats'?>">Statistics</a></li>
+<?php 
+	} 
+?>	
 </ul>
-
-<div class="page">

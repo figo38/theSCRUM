@@ -1,20 +1,32 @@
 <?php
+	/**
+	  * Add a new standalone story
+	  * @param id Project ID
+	  * @param eid Epic ID
+	  * @param story Story
+	  * @param acceptance Acceptance criteria
+	  * @param storytype Story type
+	  */
+
 	include_once '../../global.php';
 	include_once '../../_classes/classloader.php';
 	
-	$projectId = $_REQUEST['id'];
-	$storyStory = trim($_REQUEST['story']);
-	$storyAcceptance = trim($_REQUEST['acceptance']);
-	$storyTypeID = isset($_REQUEST['storytype']) && is_numeric($_REQUEST['storytype']) ? (integer)$_REQUEST['storytype'] : 1;
-	$url = isset($_REQUEST['url']) ? trim($_REQUEST['url']) : NULL;
-	if ($storyTypeID != 4) {
+	$projectId = getRequestIntParameter('id');
+	$storyStory = getRequestParameter('story');
+	$storyAcceptance = getRequestParameter('acceptance');
+	$url = getRequestParameter('url');
+	$storyTypeID = getRequestIntParameter('storytype', Story::STORY);
+
+	// Url field only makes sense for "bug" story type
+	if ($storyTypeID != Story::BUG) {
 		$url = NULL;
 	}
-
+	// Create the story in the DB
 	$P = new Project($projectId, true);	
-	$storyId = $P->addStory($storyStory, $storyAcceptance, $storyTypeID, NULL, $url);
+	$storyId = $P->addStory($storyStory, $storyAcceptance, $storyTypeID, NULL, $url);	
 	$projectUnit = $P->getUnit();
 
+	// Display the created story
 	$D = new StoryDisplay($storyId);
 	$D->setDisplayNone(true);
 	$D->render();

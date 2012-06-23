@@ -89,5 +89,8 @@
 <script type="text/javascript">
 <!--
 new ResizingPostIts();
+<?php if ($flagHasRight) { ?>
+new PBInPlaceEditor('project-goal-<?php echo $projectId;?>', { rows:3 });
+<?php } ?>
 -->
 </script>

@@ -24,7 +24,6 @@ var SprintBacklog = Class.create({
 			var taskId = s.id.substr(7);
 			
 			new ProductBacklogTip('task-edit-' + taskId, "Edit task", {
-				title: "Edit task",
 				showOn: 'click',
 				hideOn: { element: 'closeButton', event: 'click'},
 				hideOthers: 'true',

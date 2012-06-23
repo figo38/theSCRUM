@@ -44,22 +44,32 @@ function urlencode (str) {
 Ajax.InPlaceEditorWithEmptyText = Class.create(Ajax.InPlaceEditor, {
 	initialize : function($super, element, url, options) {
 		if (!options.callback) {
-			options.callback = function(form, value) { return 'id=' + element + '&new_content=' + urlencode(value) + '&old_content=' + urlencode($(element)) };
+			options.callback = function(form, value) { 
+				return 'id=' + element + '&new_content=' + urlencode(value) + '&old_content=' + urlencode($(element)) ;
+			};
 		}
 		if (!options.onEnterHover) {
-			options.onEnterHover = function(form, value) { $(element).addClassName('ehover'); };
+			options.onEnterHover = function(form, value) { 
+				$(element).addClassName('ehover'); 
+			};
 		}
 		if (!options.onLeaveHover) {
-			options.onLeaveHover = function(form, value) { $(element).removeClassName('ehover'); };
+			options.onLeaveHover = function(form, value) { 
+				$(element).removeClassName('ehover'); 
+			};
 		}
-		if (!options.emptyText) { options.emptyText = "(Click to edit...)";}
-		if (!options.okText) { options.okText = "";}
-		if (!options.cancelControl) { options.cancelControl = "button";}		
-		if (!options.cancelText) { options.cancelText = "";}
+		if (!options.emptyText) { options.emptyText = '(Click to edit...)';}
+		if (!options.okText) { options.okText = '';}
+		if (!options.cancelControl) { options.cancelControl = 'button';}		
+		if (!options.cancelText) { options.cancelText = '';}
 		
-		if (!options.savingText) { options.savingText = "";}
-		if (!options.emptyClassName) { options.emptyClassName = "inplaceeditor-empty";}
-				
+		if (!options.savingText) { options.savingText = '';}
+		if (!options.emptyClassName) { options.emptyClassName = 'inplaceeditor-empty';}
+
+		if (!options.onComplete) { options.onComplete = function(transport, element) {
+			new PBSavingMsg().done();
+		};}
+
 		$super(element, url, options);
 		this.checkEmpty();
 	},
@@ -85,9 +95,20 @@ Ajax.InPlaceEditorWithEmptyText = Class.create(Ajax.InPlaceEditor, {
 	}
 });
 
+var PBInPlaceEditor = Class.create({
+	initialize: function(fieldname, options) {
+		this.priorityEditor = new Ajax.InPlaceEditorWithEmptyText(fieldname, PATH_TO_ROOT + '_ajax/field_update.php', options);
+	},
+	dispose: function() {
+		this.priorityEditor.dispose();
+	}
+});
+
+
 // Extends Prototip class
 var ProductBacklogTip = Class.create(Tip, {
 	initialize : function ($super, element, title, options) {
+		if (!options.title) { options.title = title;}		
 		if (!options.closeButton) { options.closeButton = true;}
 		if (!options.className) { options.className = 'backlogtip';}
 		if (!options.showOn) { options.showOn = 'click';}
@@ -96,6 +117,19 @@ var ProductBacklogTip = Class.create(Tip, {
 		if (!options.width) { options.width = 'auto';}
 		if (!options.hideOthers) { options.hideOthers = 'true';}
 		$super(element, title, options);
+	}
+});
+
+var ProductBacklogHelperTip = Class.create({
+	initialize : function (element, title, content) {
+		new Tip(element, '<p class="helpTitle">' + title + '</p>' + content, { 
+			width: 'auto', 
+			border: 0, 
+			radius: 0,
+			style: 'darkgrey',
+			hook: { target: 'bottomMiddle', tip: 'topMiddle' },
+			offset: { x: 0, y: 15 }
+		});		
 	}
 });
 
@@ -177,12 +211,6 @@ var PBCalendar = Class.create({
 			this.hide(); // TODO This should be called in the "onSuccess" method, but doesn't work...
 		}}
 		Calendar.setup(options);
-	}
-});
-
-var PBInPlaceEditor = Class.create({
-	initialize: function(fieldname, options) {
-		new Ajax.InPlaceEditorWithEmptyText(fieldname, PATH_TO_ROOT + '_ajax/field_update.php', options);		
 	}
 });
 
@@ -277,14 +305,7 @@ var PBDeleteObject = Class.create({
 	}
 });
 
-var PBSavingMsg = Class.create({
-	initialize: function() {
-		$('savingText').setStyle({ display: 'block'});
-	},
-	done: function() {
-		setTimeout("$('savingText').setStyle({ display: 'none'});",200);			
-	}
-});
+
 
 var PBLightview = Class.create({
 	initialize: function(fieldname, windowtitle, windowhref) {
@@ -302,3 +323,48 @@ var PBLightview = Class.create({
 		});		
 	}
 });
+
+/**
+  * Helper
+  */
+var PBSavingMsg = Class.create({
+	initialize: function() {
+		$('savingText').setStyle({ display: 'block'});
+	},
+	done: function() {
+		setTimeout("$('savingText').setStyle({ display: 'none'});",200);			
+	}
+});
+
+/** 
+  * Helper to manage the click event on a DOM element
+  * @param eltName Element name (its HTML ID)
+  * @param func The JS function to execute on click event
+  */
+function PBClick(eltName, func) { 
+	if ($(eltName) != undefined) { 
+		$(eltName).observe('click', func);
+	}
+}
+
+/**
+  * Helper to manage the reset of an input field
+  * @param eltName Element name (its HTML ID) that needs to be clicked to reset the input field
+  * @param eltReset Element name (its HTML ID) to be reset
+  */
+function PBReset(eltName, eltReset){
+	$(eltName).observe('click', function(event) {
+		$(eltReset).value = '';
+		$(eltReset).focus();
+	});	
+}
+
+/**
+  * Helper to manage Cancel button displayed in Tips
+  * @param eltName Element name (its HTML ID) of the Cancel button
+  */
+function PBCancelButton(eltName){
+	$(eltName).observe('click', function(event) {
+		Tips.hideAll();
+	});
+}

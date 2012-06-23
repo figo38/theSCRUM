@@ -1,12 +1,35 @@
 <?php
-	$JS = array('project_people');
+	/**
+	  * Manage the following views:
+	  * - build the project team
+	  * - manage team allocation for the current sprint
+	  *
+	  * @param $viewtype Decide which page to display (set up by index.php controller)
+	  */
+
 	$menu = 4;
+	
+	$JS = array('project_people');
 	$pageTitle = 'Team management';
 	include '_portlets/project_header.php';
 
-	$USERS = $P->getAllUsers();
-
 	$cond = ($USERAUTH->isScrumMasterOf($projectId) || $USERAUTH->isAdmin());
+?>
+
+<div id="subsubmenuheader">
+	<div class="subsubmenu">
+		<ul>
+			<li class="selected">
+				<a href="">Build your project team</a>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<div class="page">
+
+<?php
+	$USERS = $P->getAllUsers();
 
 	function displayUsers($USERS, $type) {
 		global $cond;
@@ -25,7 +48,6 @@
 		} 
 	}
 ?>
-
 <div id="usermanagement">
 	<div id="allteam">	
 		<div class="section">

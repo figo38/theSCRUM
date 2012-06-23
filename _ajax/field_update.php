@@ -19,7 +19,7 @@
 	$success = false;
 	include $objectname . '/field_update.php';
 	
-	if ($success) {
+	if ($success == 1) {
 		echo(nl2br(rawurldecode($new_content)));
 	} else {
 		echo(rawurldecode($old_content));
